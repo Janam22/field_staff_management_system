@@ -72,7 +72,6 @@ class HomeController extends Controller
         $business_settings =  BusinessSetting::whereIn('key', $key)->pluck('value','key')->toArray();
 
         $features = AdminFeature::latest()->where('status',1)->get()->toArray();
-        $testimonials = AdminTestimonial::latest()->where('status',1)->get()->toArray();
 
         $header_floating_content= json_decode($settings['header_floating_content'] ?? null, true);
         $header_image_content= json_decode($settings['header_image_content'] ?? null, true);
