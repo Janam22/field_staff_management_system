@@ -6867,4 +6867,5 @@
   'Employee_login_url' => 'Employee login url',
   'Add_dynamic_secure_login_url_for_Employee' => 'Add dynamic secure login url for Employee',
   'Hello,_here_you_can_manage_your_system.' => 'Hello, here you can manage your system.',
+  'Ex:_+97798******' => 'Ex: +97798******',
 );
