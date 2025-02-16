@@ -76,28 +76,6 @@
                     </div>
                 </div>
                 <div class="check--item-wrapper">
-                    
-                    <div class="check-item">
-                        <div class="form-group form-check form--check">
-                            <input type="checkbox" name="modules[]" value="banner" class="form-check-input"
-                                    id="banner">
-                            <label class="form-check-label ml-2 ml-sm-3  text-dark" for="banner">{{translate('messages.banner')}}</label>
-                        </div>
-                    </div>
-                    <div class="check-item">
-                        <div class="form-group form-check form--check">
-                            <input type="checkbox" name="modules[]" value="contact_message" class="form-check-input"
-                                    id="contact_message">
-                            <label class="form-check-label ml-2 ml-sm-3  text-dark" for="contact_message">{{translate('messages.contact_messages')}}</label>
-                        </div>
-                    </div>
-                    <div class="check-item">
-                        <div class="form-group form-check form--check">
-                            <input type="checkbox" name="modules[]" value="customerList" class="form-check-input"
-                                    id="customerList">
-                            <label class="form-check-label ml-2 ml-sm-3  text-dark" for="customer_section">{{translate('messages.customers_section')}}</label>
-                        </div>
-                    </div>
                     <div class="check-item">
                         <div class="form-group form-check form--check">
                             <input type="checkbox" name="modules[]" value="employee" class="form-check-input"

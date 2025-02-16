@@ -86,7 +86,8 @@
                                     <div class="pl-2">
                                             {{ translate('Created_At') }}
                                         </div>
-                                    </th>
+                                </th>                                    
+                                <th>{{translate('messages.status')}}</th>
                                 <th class="text-center w-120px">{{translate('messages.action')}}</th>
                             </tr>
                             </thead>
@@ -101,6 +102,14 @@
                                     </td>
                                     <td>
                                         {{$e['created_at']->format('d M, Y')}}
+                                    </td>                                    
+                                    <td>
+                                        <label class="toggle-switch toggle-switch-sm" for="statusCheckbox{{$e->id}}">
+                                            <input type="checkbox" data-url="{{route('admin.employee.status',[$e['id'],$e->status?0:1])}}" class="toggle-switch-input redirect-url" id="statusCheckbox{{$e->id}}" {{$e->status?'checked':''}}>
+                                            <span class="toggle-switch-label">
+                                                <span class="toggle-switch-indicator"></span>
+                                            </span>
+                                        </label>
                                     </td>
                                     <td>
                                         @if (auth('admin')->id()  != $e['id'])

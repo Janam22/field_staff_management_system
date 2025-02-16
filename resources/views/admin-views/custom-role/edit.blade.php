@@ -82,29 +82,7 @@
 
                         <label class="input-label " for="name">{{translate('messages.module_permission')}} : </label>
                         <hr>
-                        <div class="row">
-                            
-                            <div class="col-md-3">
-                                <div class="form-group form-check">
-                                    <input type="checkbox" name="modules[]" value="banner" class="form-check-input"
-                                           id="banner"  {{in_array('banner',(array)json_decode($role['modules']))?'checked':''}}>
-                                    <label class="form-check-label  text-dark" for="banner">{{translate('messages.banner')}}</label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group form-check">
-                                    <input type="checkbox" name="modules[]" value="contact_message" class="form-check-input"
-                                           id="contact_message"  {{in_array('contact_message',(array)json_decode($role['modules']))?'checked':''}}>
-                                    <label class="form-check-label  text-dark" for="contact_message">{{translate('messages.contact_message')}}</label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group form-check">
-                                    <input type="checkbox" name="modules[]" value="customerList" class="form-check-input"
-                                           id="customerList"  {{in_array('customerList',(array)json_decode($role['modules']))?'checked':''}}>
-                                    <label class="form-check-label  text-dark" for="customerList">{{translate('messages.customers_section')}}</label>
-                                </div>
-                            </div>
+                        <div class="row">                            
                             <div class="col-md-3">
                                 <div class="form-group form-check">
                                     <input type="checkbox" name="modules[]" value="employee" class="form-check-input"

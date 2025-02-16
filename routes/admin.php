@@ -31,7 +31,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::post('add-new', 'EmployeeController@store');
             Route::get('list', 'EmployeeController@list')->name('list');
             Route::get('update/{id}', 'EmployeeController@edit')->name('edit');
-            Route::post('update/{id}', 'EmployeeController@update')->name('update');
+            Route::post('update/{id}', 'EmployeeController@update')->name('update');            
+            Route::get('status/{id}/{status}', 'EmployeeController@status')->name('status');
             Route::delete('delete/{id}', 'EmployeeController@destroy')->name('delete');
             Route::get('export-employee', 'EmployeeController@employee_list_export')->name('export-employee');
         });

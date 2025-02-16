@@ -91,6 +91,14 @@ class EmployeeController extends Controller
         $rls = AdminRole::whereNotIn('id', [1])->get();
         return view('admin-views.employee.edit', compact('rls', 'e'));
     }
+    public function status(Request $request)
+    {
+        $employee = Admin::findOrFail($request->id);
+        $employee->status = $request->status;
+        $employee->save();
+        Toastr::success(translate('messages.employee_status_updated'));
+        return back();
+    }
 
     public function update(Request $request, $id)
     {
