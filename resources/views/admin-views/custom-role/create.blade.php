@@ -83,6 +83,15 @@
                             <label class="form-check-label ml-2 ml-sm-3  text-dark" for="employee">{{translate('messages.Employee')}}</label>
                         </div>
                     </div>
+                    
+                    <div class="check-item">
+                        <div class="form-group form-check form--check">
+                            <input type="checkbox" name="modules[]" value="attendance" class="form-check-input"
+                                    id="attendance">
+                            <label class="form-check-label ml-2 ml-sm-3 text-dark" for="attendance">{{translate('messages.attendance')}}</label>
+                        </div>
+                    </div>
+                    
                     <div class="check-item">
                         <div class="form-group form-check form--check">
                             <input type="checkbox" name="modules[]" value="settings" class="form-check-input"
@@ -90,6 +99,7 @@
                             <label class="form-check-label ml-2 ml-sm-3  text-dark" for="settings">{{translate('messages.business_settings')}}</label>
                         </div>
                     </div>
+                    
                 </div>
 
                 <div class="mt-4 pb-3">

@@ -33,7 +33,6 @@ class LoginController extends Controller
 
     public function login($login_url)
     {
-
         $language = BusinessSetting::where('key', 'system_language')->first();
         if($language){
             foreach (json_decode($language->value, true) as $key => $data) {
@@ -87,6 +86,12 @@ class LoginController extends Controller
 
     public function login_attemp($role,$email ,$password, $remember = false){
         $auth= ($role == 'admin_employee' ? 'admin' :$role);
+
+        $user = Admin::where('email', $email)->first();
+        if ($user->status == 0) {
+            return ['status' => false, 'message' => 'Your account is inactive. Please contact the admin.'];
+        }
+
         if (auth($auth)->attempt(['email' => $email, 'password' => $password], $remember)) {
 
             if ($remember) {
@@ -102,13 +107,11 @@ class LoginController extends Controller
                     Cookie::forget('e_token');
                     Cookie::forget('p_token');
                 }
-                if($auth == 'admin'){
-                    return 'admin';
-                }
+
+                return ['status' => true, 'role' => $auth];
             }
         return false;
     }
-
 
     public function submit(Request $request)
     {
@@ -148,11 +151,14 @@ class LoginController extends Controller
             }
         }
 
-    $data=$this->login_attemp($request->role,$request->email ,$request->password, $request->remember);
+        $data=$this->login_attemp($request->role,$request->email ,$request->password, $request->remember);
+        if ($data['status'] == false) {
+            return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([$data['message']]);
+        }
 
-    if($data == 'admin'){
-        return redirect()->route($data.'.dashboard');
-    }
+        if($data['role'] == 1){
+            return redirect()->route($data.'.dashboard');
+        }
         return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors(['Credentials does not match.']);
     }
 

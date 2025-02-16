@@ -36,6 +36,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::delete('delete/{id}', 'EmployeeController@destroy')->name('delete');
             Route::get('export-employee', 'EmployeeController@employee_list_export')->name('export-employee');
         });
+        
+        Route::group(['prefix' => 'attendance', 'as' => 'attendance.', 'middleware' => ['module:attendance']], function () {
+            Route::post('check-in', 'AttendanceController@check_in')->name('checkin');
+            Route::post('check-out', 'AttendanceController@check_out')->name('checkout');
+        });
 
         Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.', 'middleware' => ['module:settings', 'actch']], function () {
             Route::post('update-landing-setup', 'BusinessSettingsController@landing_page_settings_update')->name('business-setup.update-landing-setup');
