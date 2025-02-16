@@ -8,9 +8,6 @@
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('admin/business-settings/recaptcha*') ? 'active' : '' }}" href="{{route('admin.business-settings.recaptcha_index')}}"  aria-disabled="true">{{translate('Recaptcha')}}</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('admin/business-settings/storage-connection*') ? 'active' : '' }}" href="{{route('admin.business-settings.storage_connection_index')}}"  aria-disabled="true">{{translate('Storage_Connection')}}</a>
-            </li>
         </ul>
         <!-- End Nav -->
     </div>

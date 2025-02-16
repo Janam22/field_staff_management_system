@@ -6,12 +6,10 @@ use App\Models\Admin;
 use App\Models\AdminRole;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
-use Illuminate\Support\Facades\DB;
 use App\Exports\EmployeeListExport;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
 use Maatwebsite\Excel\Facades\Excel;
-use Rap2hpoutre\FastExcel\FastExcel;
 use Illuminate\Validation\Rules\Password;
 
 class EmployeeController extends Controller
@@ -68,7 +66,7 @@ class EmployeeController extends Controller
     function list(Request $request)
     {
         $key = explode(' ', $request['search']);
-        $em = Admin::zone()->with(['role'])->where('role_id', '!=','1')
+        $em = Admin::with(['role'])->where('role_id', '!=','1')
         ->when(isset($key) , function($q) use($key){
             $q->where(function ($q) use ($key) {
                 foreach ($key as $value) {
@@ -85,7 +83,7 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        $e = Admin::zone()->where('role_id', '!=','1')->where(['id' => $id])->first();
+        $e = Admin::where('role_id', '!=','1')->where(['id' => $id])->first();
         if (auth('admin')->id()  == $e['id']){
             Toastr::error(translate('messages.You_can_not_edit_your_own_info'));
             return redirect()->route('admin.employee.list');
@@ -150,14 +148,13 @@ class EmployeeController extends Controller
         $employee->image = $e['image'];
         $employee->save();
 
-
         Toastr::success(translate('messages.employee_updated_successfully'));
         return redirect()->route('admin.employee.list');
     }
 
-    public function distroy($id)
+    public function destroy($id)
     {
-        $role=Admin::zone()->where('role_id', '!=','1')->where(['id'=>$id])->first();
+        $role=Admin::where('role_id', '!=','1')->where(['id'=>$id])->first();
         if (auth('admin')->id()  == $role['id']){
             Toastr::error(translate('messages.You_can_not_edit_your_own_info'));
             return redirect()->route('admin.employee.list');
@@ -171,7 +168,7 @@ class EmployeeController extends Controller
     {
         try{
             $key = explode(' ', $request['search']);
-            $em=Admin::zone()->with(['role'])->where('role_id', '!=','1')
+            $em=Admin::with(['role'])->where('role_id', '!=','1')
             ->when(isset($key) , function($q) use($key){
                 $q->where(function ($q) use ($key) {
                     foreach ($key as $value) {

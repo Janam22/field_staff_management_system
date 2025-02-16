@@ -12,7 +12,7 @@
                         <img src="{{ dynamicAsset('public/assets/admin/img/business.png') }}" class="w--20" alt="">
                     </span>
                     <span>
-                        {{ translate('messages.business_setup') }}
+                        {{ translate('messages.organization_setup') }}
                     </span>
                 </h1>
             <div class="d-flex flex-wrap justify-content-end align-items-center flex-grow-1">
@@ -32,99 +32,13 @@
 
         <div class="tab-content">
             <div class="tab-pane fade show active" id="business-setup">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="maintainance-mode-toggle-bar d-flex flex-wrap justify-content-between border blue-border rounded align-items-center">
-                            @php($config = \App\CentralLogics\Helpers::get_business_settings('maintenance_mode'))
-                            <h5 class="card-title text-capitalize mr-3 m-0 text--info">
-                                <span class="card-header-icon">
-                                    <i class="tio-settings-outlined"></i>
-                                </span>
-                                <span>
-                                    {{ translate('messages.maintenance_mode') }}
-                                </span>
-                            </h5>
-
-                            <label class="toggle-switch toggle-switch-sm">
-                                <input type="checkbox"
-                                id="maintenance_mode"
-
-                                class="status toggle-switch-input  {{ isset($config) && $config ?   'turn_off_maintenance_mode' : 'maintenance-mode' }} "
-                                    {{ isset($config) && $config ? 'checked' : '' }}>
-                                <span class="toggle-switch-label text">
-                                    <span class="toggle-switch-indicator"></span>
-                                </span>
-                            </label>
-                        </div>
-
-
-                <?php
-                    $maintenance_mode_data=   \App\Models\DataSetting::where('type','maintenance_mode')->whereIn('key' ,['maintenance_system_setup' ,'maintenance_duration_setup','maintenance_message_setup'])->pluck('value','key')
-                    ->map(function ($value) {
-                        return json_decode($value, true);
-                    })
-                    ->toArray();
-                            $selectedMaintenanceSystem      =  data_get($maintenance_mode_data,'maintenance_system_setup',[]);
-                            $selectedMaintenanceDuration    =  data_get($maintenance_mode_data,'maintenance_duration_setup',[]);
-                            $selectedMaintenanceMessage     = data_get($maintenance_mode_data,'maintenance_message_setup',[]);
-                            $maintenanceMode                = (int) ($config ?? 0);
-
-                    if (isset($selectedMaintenanceDuration['start_date']) && isset($selectedMaintenanceDuration['end_date'])) {
-                        $startDate = new DateTime($selectedMaintenanceDuration['start_date']);
-                        $endDate = new DateTime($selectedMaintenanceDuration['end_date']);
-                    } else {
-                        $startDate = null;
-                        $endDate = null;
-                    }
-                ?>
-
-
-                @if($config)
-                    <div class="mt-3 border rounded p-3 p-md-4">
-                                <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center">
-                                    <p class="fz-12 mb-0">
-                                        {{ translate('Your maintenance mode is activated') }}
-                                        @if(isset($selectedMaintenanceDuration['maintenance_duration']) && $selectedMaintenanceDuration['maintenance_duration'] == 'until_change')
-                                            {{ translate(' until I change') }}
-                                        @endif
-                                        @if($startDate && $endDate)
-                                        {{translate('from ')}}<strong>{{ $startDate->format('m/d/Y, h:i A') }}</strong> {{ translate('to') }} <strong>{{ $endDate->format('m/d/Y, h:i A') }}</strong>.
-                                        @endif
-                                    </p>
-                                    <button class="c1 btn  btn-outline-primary edit maintenance-mode-show maintenance-mode" href="#"> <i class="tio-edit" ></i> {{ translate('edit') }}</button>
-                                </div>
-                            <h6 class="mb-0">
-                                {{ translate('Selected Systems') }}
-                            </h6>
-                                <div class="d-flex flex-wrap gap-3 mt-3 align-items-center">
-                                    <ul class="selected-systems d-flex gap-4 flex-wrap bg-soft-dark px-5 py-1 mb-0 rounded">
-                                        @foreach($selectedMaintenanceSystem as $system)
-                                            <li>{{ ucwords(str_replace('_', ' ', $system)) }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                    </div>
-                @else
-                    <p class="mt-2 mb-0">
-                        {{ translate('*Turn on the') }}  <strong> {{ translate('Maintenance') }} </strong>    {{  translate('mode will temporarily deactivate your selected systems as of your chosen date and time.') }}
-                    </p>
-                @endif
-
-            </div>
-            </div>
-
-
-
-
-
-
 
                 <form action="{{ route('admin.business-settings.update-setup') }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     <h4 class="card-title mb-3 mt-1">
                         <img src="{{dynamicAsset('/public/assets/admin/img/company.png')}}" class="card-header-icon mr-2" alt="">
-                        <span>{{ translate('Company_Information') }}</span>
+                        <span>{{ translate('System_Information') }}</span>
                     </h4>
                     <div class="card mb-3">
                         <div class="card-body">
@@ -133,7 +47,7 @@
                                 <div class="col-md-3 col-sm-6">
                                     @php($name = \App\Models\BusinessSetting::where('key', 'business_name')->first())
                                     <div class="form-group">
-                                        <label class="form-label" for="exampleFormControlInput1">{{ translate('messages.company_name') }}
+                                        <label class="form-label" for="exampleFormControlInput1">{{ translate('messages.system_name') }}
                                             &nbsp;
                                         <span class="line--limit-1"
                                         data-toggle="tooltip" data-placement="right"
@@ -438,34 +352,9 @@
                                         <textarea type="text" id="address" name="address" class="form-control h--90px" placeholder="{{ translate('messages.Ex :') }} House#94, Road#8, Abc City" rows="1"
                                             required>{{ $address->value ?? '' }}</textarea>
                                     </div>
-                                    @php($default_location = \App\Models\BusinessSetting::where('key', 'default_location')->first())
-                                    @php($default_location = $default_location->value ? json_decode($default_location->value, true) : 0)
-                                    <div class="row g-4">
-                                        <div class="col-sm-6">
-                                            <div class="form-group mb-0">
-                                                <label class="input-label text-capitalize d-flex alig-items-center"
-                                                    for="latitude">{{ translate('messages.latitude') }}<span class="input-label-secondary"
-                                                            data-toggle="tooltip" data-placement="right" data-original-title="{{ translate('messages.Click_on_the_map_to_see_your_location’s_latitude') }}"><img
-                                                            src="{{ dynamicAsset('/public/assets/admin/img/info-circle.svg') }}"
-                                                            alt="{{ translate('messages.Click_on_the_map_to_see_your_location’s_latitude') }}"></span></label>
-                                                <input type="text" id="latitude" name="latitude" class="form-control d-inline"
-                                                    placeholder="{{ translate('messages.Ex :') }} -94.22213"
-                                                    value="{{ $default_location ? $default_location['lat'] : 0 }}" required readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group mb-0">
-                                                <label class="input-label text-capitalize d-flex alig-items-center"
-                                                    for="longitude">{{ translate('messages.longitude') }}<span class="input-label-secondary"
-                                                            data-toggle="tooltip" data-placement="right" data-original-title="{{ translate('messages.Click_on_the_map_to_see_your_location’s_longitude') }}"><img
-                                                            src="{{ dynamicAsset('/public/assets/admin/img/info-circle.svg') }}"
-                                                            alt="{{ translate('messages.Click_on_the_map_to_see_your_location’s_longitude') }}"></span></label>
-                                                <input type="text" name="longitude" class="form-control" placeholder="{{ translate('messages.Ex :') }} 103.344322"
-                                                    id="longitude" value="{{ $default_location ? $default_location['lng'] : 0 }}"
-                                                    required readonly>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
                                     <div class="d-flex __gap-12px mt-4">
                                         <label class="__custom-upload-img mr-lg-5">
                                             @php($logo = \App\Models\BusinessSetting::where('key', 'logo')->first())
@@ -494,25 +383,6 @@
                                             <input type="file" name="icon" id="favIconUpload" class="custom-file-input"
                                                 accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                         </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="p-3 rounded border border-success">
-                                        <div class="d-flex mb-3 fs-12">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V11H13V17ZM13 9H11V7H13V9Z" fill="#039D55"></path>
-                                            </svg>
-                                            <div class="w-0 flex-grow pl-2">
-                                                Clicking on the map will set Latitude and Longitude automatically
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-4">
-                                            <input id="pac-input" class="controls rounded overflow-hidden initial-9 mt-1"
-                                                title="{{ translate('messages.search_your_location_here') }}" type="text"
-                                                placeholder="{{ translate('messages.search_here') }}" />
-                                            <div id="location_map_canvas" class="overflow-hidden rounded height-285px"></div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -646,35 +516,14 @@
                                             </option>
                                         </select>
                                     </div>
+                                </div>
 
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6 col-md-2">
-                                    @php($digit_after_decimal_point = \App\Models\BusinessSetting::where('key', 'digit_after_decimal_point')->first())
-                                    <div class="form-group">
-                                        <label class="input-label text-capitalize d-flex alig-items-center"
-                                            for="digit_after_decimal_point">{{ translate('messages.Digit after decimal point') }}</label>
-                                        <input type="number" name="digit_after_decimal_point" class="form-control"
-                                            id="digit_after_decimal_point"
-                                            value="{{ $digit_after_decimal_point ? $digit_after_decimal_point->value : 0 }}"
-                                            min="0" max="4" required>
-                                    </div>
-                                </div>
                                 <div class="col-sm-6 col-md-5">
                                     @php($footer_text = \App\Models\BusinessSetting::where('key', 'footer_text')->first())
                                     <div class="form-group">
                                         <label class="input-label">{{ translate('copy_right_text') }} <img src="{{dynamicAsset('/public/assets/admin/img/info-circle.svg')}}" title="{{ translate('make_visitors_aware_of_your_business‘s_rights_&_legal_information') }}" data-toggle="tooltip" alt=""> </label>
                                         <textarea type="text" value="" name="footer_text" class="form-control" placeholder="" rows="3"
                                             required>{{ $footer_text->value ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-5">
-                                    @php($cookies_text = \App\Models\BusinessSetting::where('key', 'cookies_text')->first())
-                                    <div class="form-group">
-                                        <label class="input-label">{{ translate('Cookies_Text') }} <img src="{{dynamicAsset('/public/assets/admin/img/info-circle.svg')}}" data-original-title="{{ translate('messages.make_visitors_aware_of_your_business‘s_rights_&_legal_information.') }}" data-toggle="tooltip" alt=""> </label>
-                                        <textarea type="text" value="" name="cookies_text" class="form-control"
-                                            placeholder="{{ translate('messages.Ex_:_Cookies_Text') }} " rows="3" required>{{ $cookies_text->value ?? '' }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -694,257 +543,9 @@
         </div>
     </div>
 
-    <div class="modal fade" id="maintenance-off-mode-modal">
-        <div class="modal-dialog modal-dialog-centered status-warning-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true" class="tio-clear"></span>
-                    </button>
-                </div>
-                <form method="post" action="{{route('admin.maintenance-mode')}}">
-                    @csrf
-                    <input type="hidden" name="maintenance_mode_off" value="1">
-                <div class="modal-body pb-5 pt-0">
-                    <div class="max-349 mx-auto mb-20">
-                        <div>
-                            <div class="text-center">
-                                <img width="80" src="{{  dynamicAsset('public/assets/admin/img/modal/maintenance-off.png') }}" class="mb-20">
-                                <h5 class="modal-title">{{ translate('Are you sure you?') }}</h5>
-                            </div>
-                            <div class="text-center" >
-                                {{-- <h3 > {{ translate('Are_you_sure_to_change_the_currency_?') }}</h3> --}}
-                                <div > <p>{{ translate('Do you want to turn off Maintenance mode? Turning it off will activate all systems that were deactivated.') }}</h3></p></div>
-                            </div>
-
-
-                            </div>
-
-                        <div class="btn--container justify-content-center">
-                            <button data-dismiss="modal" type="button" class="btn btn--cancel min-w-120" >{{translate("Cancel")}}</button>
-                            <button  type="submit"  class="btn btn--primary min-w-120">{{translate('Yes')}}</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-    <div class="modal fade" id="maintenance-mode-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header pt-3">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true" class="tio-clear"></span>
-                    </button>
-                </div>
-                <form method="post" action="{{route('admin.maintenance-mode')}}">
-                    @csrf
-                    <div class="modal-body pt-3 px-0">
-                        @csrf
-                        <div class="d-flex flex-column gap-4">
-                            <div class="px-4">
-                                <div class="row mb-4">
-                                    <div class="col-xl-4">
-                                        <h5 class="mb-2">{{ translate('Select System') }}</h5>
-                                        <p>{{ translate('Select the systems you want to temporarily deactivate for maintenance') }}</p>
-                                    </div>
-                                    <div class="col-xl-8">
-                                        <div class="border p-3 p-sm-4 rounded">
-                                            <div class="d-flex flex-wrap gap-4">
-                                                <div class="form-check form--check m-0">
-                                                    <input class="form-check-input system-checkbox" name="all_system" type="checkbox"
-                                                        {{ in_array('admin_panel', $selectedMaintenanceSystem) &&
-                                                                in_array('restaurant_panel', $selectedMaintenanceSystem) &&
-                                                                in_array('user_mobile_app', $selectedMaintenanceSystem) &&
-                                                                in_array('user_web_app', $selectedMaintenanceSystem) &&
-                                                                in_array('react_website', $selectedMaintenanceSystem) &&
-                                                                in_array('deliveryman_app', $selectedMaintenanceSystem) &&
-                                                                in_array('restaurant_app', $selectedMaintenanceSystem) ? 'checked' :'' }}
-                                                        id="allSystem">
-                                                    <label class="form-check-label" for="allSystem">{{ translate('All System') }}</label>
-                                                </div>
-
-                                                <div class="form-check form--check m-0">
-                                                    <input class="form-check-input system-checkbox" name="restaurant_panel" type="checkbox"
-                                                        {{ in_array('restaurant_panel', $selectedMaintenanceSystem) ? 'checked' :'' }}
-                                                        id="restaurant_panel">
-                                                    <label class="form-check-label" for="restaurant_panel">{{ translate('Restaurant Panel') }}</label>
-                                                </div>
-                                                <div class="form-check form--check m-0">
-                                                    <input class="form-check-input system-checkbox" name="user_mobile_app" type="checkbox"
-                                                        {{ in_array('user_mobile_app', $selectedMaintenanceSystem) ? 'checked' :'' }}
-                                                        id="user_mobile_app">
-                                                    <label class="form-check-label" for="user_mobile_app">{{ translate('User Mobile App') }}</label>
-                                                </div>
-                                                <div class="form-check form--check m-0">
-                                                    <input class="form-check-input system-checkbox" name="user_web_app" type="checkbox"
-                                                        {{ in_array('user_web_app', $selectedMaintenanceSystem) ? 'checked' :'' }}
-                                                        id="user_web_app">
-                                                    <label class="form-check-label" for="user_web_app">{{ translate('User Website') }}</label>
-                                                </div>
-                                                <div class="form-check form--check m-0">
-                                                    <input class="form-check-input system-checkbox" name="react_website" type="checkbox"
-                                                        {{ in_array('react_website', $selectedMaintenanceSystem) ? 'checked' :'' }}
-                                                        id="react_website">
-                                                    <label class="form-check-label" for="react_website">{{ translate('React Website') }}</label>
-                                                </div>
-                                                <div class="form-check form--check m-0">
-                                                    <input class="form-check-input system-checkbox" name="deliveryman_app" type="checkbox"
-                                                        {{ in_array('deliveryman_app', $selectedMaintenanceSystem) ? 'checked' :'' }}
-                                                        id="deliveryman_app">
-                                                    <label class="form-check-label" for="deliveryman_app">{{ translate('Deliveryman App') }}</label>
-                                                </div>
-                                                <div class="form-check form--check m-0">
-                                                    <input class="form-check-input system-checkbox" name="restaurant_app" type="checkbox"
-                                                        {{ in_array('restaurant_app', $selectedMaintenanceSystem) ? 'checked' :'' }}
-                                                        id="restaurant_app">
-                                                    <label class="form-check-label" for="restaurant_app">{{ translate('Restaurant App') }}</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <div class="col-xl-4">
-                                        <h5 class="mb-2">{{ translate('Maintenance Date') }} & {{ translate('Time') }}</h5>
-                                        <p>{{ translate('Choose the maintenance mode duration for your selected system.') }}</p>
-                                    </div>
-                                    <div class="col-xl-8">
-                                        <div class="border p-3 p-sm-4 rounded">
-                                            <div class="d-flex flex-wrap gap-4 mb-3">
-                                                <div class="form-check form--check">
-                                                    <input class="form-check-input" type="radio" name="maintenance_duration"
-                                                        {{ isset($selectedMaintenanceDuration['maintenance_duration']) && $selectedMaintenanceDuration['maintenance_duration'] == 'one_day' ? 'checked' : '' }}
-                                                        value="one_day" id="one_day">
-                                                    <label class="form-check-label opacity-100" for="one_day">{{ translate('For 24 Hours') }}</label>
-                                                </div>
-                                                <div class="form-check form--check">
-                                                    <input class="form-check-input" type="radio" name="maintenance_duration"
-                                                        {{ isset($selectedMaintenanceDuration['maintenance_duration']) && $selectedMaintenanceDuration['maintenance_duration'] == 'one_week' ? 'checked' : '' }}
-                                                        value="one_week" id="one_week">
-                                                    <label class="form-check-label opacity-100" for="one_week">{{ translate('For 1 Week') }}</label>
-                                                </div>
-                                                <div class="form-check form--check">
-                                                    <input class="form-check-input" type="radio" name="maintenance_duration"
-                                                        {{ isset($selectedMaintenanceDuration['maintenance_duration']) && $selectedMaintenanceDuration['maintenance_duration'] == 'until_change' ? 'checked' : '' }}
-                                                        value="until_change" id="until_change">
-                                                    <label class="form-check-label opacity-100" for="until_change">{{ translate('Until I change') }}</label>
-                                                </div>
-                                                <div class="form-check form--check">
-                                                    <input class="form-check-input" type="radio" name="maintenance_duration"
-                                                        {{ isset($selectedMaintenanceDuration['maintenance_duration']) && $selectedMaintenanceDuration['maintenance_duration'] == 'customize' ? 'checked' : '' }}
-                                                        value="customize" id="customize">
-                                                    <label class="form-check-label opacity-100" for="customize">{{ translate('Customize') }}</label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">{{ translate('Start Date') }}</label>
-                                                    <input type="datetime-local" class="form-control h-40" name="start_date" id="startDate"
-                                                        value="{{ old('start_date', $selectedMaintenanceDuration['start_date'] ?? '') }}" required>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">{{ translate('End Date') }}</label>
-                                                    <input type="datetime-local" class="form-control h-40" name="end_date" id="endDate"
-                                                        value="{{ old('end_date', $selectedMaintenanceDuration['end_date'] ?? '') }}" required>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <small id="dateError" class="form-text text-danger" style="display: none;">{{ translate('Start date cannot be greater than end date.') }}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="advanceFeatureButtonDiv">
-                            <div class="px-4">
-                                <a type="button" href="#" id="advanceFeatureToggle" class="text--base fw-semibold d-block maintenance-advance-feature-button">{{ translate('Advance Feature') }} <i class="tio-arrow-drop-down-circle-outlined"></i> </a>
-                            </div>
-                        </div>
-                        <div class="px-4">
-                            <div class="row" id="advanceFeatureSection" style="display: none;">
-                                <div class="col-xl-4">
-                                    <h5 class="mb-2">{{ translate('Maintenance Massage') }}</h5>
-                                    <p>{{ translate('Select & type what massage you want to see your selected system when maintenance mode is active.') }}</p>
-                                </div>
-                                <div class="col-xl-8">
-                                    <div class="border rounded p-3">
-                                        <div class="form-group">
-                                            <label class="form-label">{{ translate('Contact us through') }}</label>
-                                            <div class="d-flex flex-wrap gap-5 mb-3">
-                                                <div class="form-check form--check m-0">
-                                                    <input class="form-check-input" type="checkbox" name="business_number"
-                                                        {{ isset($selectedMaintenanceMessage['business_number']) && $selectedMaintenanceMessage['business_number'] == 1 ? 'checked' : '' }}
-                                                        id="businessNumber">
-                                                    <label class="form-check-label" for="businessNumber">{{ translate('Business Number') }}</label>
-                                                </div>
-                                                <div class="form-check form--check m-0">
-                                                    <input class="form-check-input" type="checkbox" name="business_email"
-                                                        {{ isset($selectedMaintenanceMessage['business_email']) && $selectedMaintenanceMessage['business_email'] == 1 ? 'checked' : '' }}
-                                                        id="businessEmail">
-                                                    <label class="form-check-label" for="businessEmail">{{ translate('Business Email') }}</label>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">{{ translate('Message Title') }}</label>
-                                            <input type="text" class="form-control h-40" name="maintenance_message" placeholder="{{ translate('We are Working On Something Special!') }}"
-                                                maxlength="200" value="{{ $selectedMaintenanceMessage['maintenance_message'] ?? '' }}">
-                                        </div>
-                                        <div class="form-group mt-3">
-                                            <label class="form-label">{{ translate('Message Details') }}</label>
-                                            <input type="text" class="form-control h-40" name="message_body" placeholder="{{ translate('We are Working On Something Special!') }}"
-                                            maxlength="200" value="{{ $selectedMaintenanceMessage['message_body'] ?? '' }}">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="d-flex ml-5 mt-4">
-                                        <a type="button" href="#" id="seeLessToggle" class="text--base fw-semibold d-block mb-3 maintenance-advance-feature-button">{{ translate('Advance Feature') }} <i class="tio-arrow-drop-up-circle-outlined" ></i> </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="d-flex flex-wrap gap-3 justify-content-end">
-                            <button data-dismiss="modal" class="btn btn--cancel" data-bs-dismiss="modal">{{ translate('Cancel') }}</button>
-                            <button type="{{env('APP_MODE')!='demo'?'submit':'button'}}" class="btn btn--primary {{env('APP_MODE') =='demo'? 'demo_check':''}}">{{ translate('Active') }}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
 @endsection
 
 @push('script_2')
-<script
-src="https://maps.googleapis.com/maps/api/js?key={{ \App\Models\BusinessSetting::where('key', 'map_api_key')->first()->value }}&libraries=places&v=3.45.8">
-</script>
     <script>
         "use strict";
 
@@ -956,18 +557,6 @@ src="https://maps.googleapis.com/maps/api/js?key={{ \App\Models\BusinessSetting:
             });
             event.preventDefault();
         });
-
-
-        $(document).on('click', '.maintenance-mode', function (event) {
-            event.preventDefault();
-            $('#maintenance-mode-modal').modal('show');
-
-        });
-        $(document).on('click', '.turn_off_maintenance_mode', function (event) {
-            event.preventDefault();
-            $('#maintenance-off-mode-modal').modal('show');
-        });
-
 
         $('#advanceFeatureToggle').click(function (event) {
                 event.preventDefault();
@@ -998,93 +587,6 @@ src="https://maps.googleapis.com/maps/api/js?key={{ \App\Models\BusinessSetting:
         $("#favIconUpload").change(function() {
             readURL(this, 'iconViewer');
         });
-
-        function initAutocomplete() {
-            var myLatLng = {
-                lat: {{ $default_location ? $default_location['lat'] : '-33.8688' }},
-                lng: {{ $default_location ? $default_location['lng'] : '151.2195' }}
-            };
-            const map = new google.maps.Map(document.getElementById("location_map_canvas"), {
-                center: {
-                    lat: {{ $default_location ? $default_location['lat'] : '-33.8688' }},
-                    lng: {{ $default_location ? $default_location['lng'] : '151.2195' }}
-                },
-                zoom: 13,
-                mapTypeId: "roadmap",
-            });
-
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-            });
-
-            marker.setMap(map);
-            var geocoder = geocoder = new google.maps.Geocoder();
-            google.maps.event.addListener(map, 'click', function(mapsMouseEvent) {
-                var coordinates = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2);
-                var coordinates = JSON.parse(coordinates);
-                var latlng = new google.maps.LatLng(coordinates['lat'], coordinates['lng']);
-                marker.setPosition(latlng);
-                map.panTo(latlng);
-
-                document.getElementById('latitude').value = coordinates['lat'];
-                document.getElementById('longitude').value = coordinates['lng'];
-
-
-                geocoder.geocode({
-                    'latLng': latlng
-                }, function(results, status) {
-                    if (status === google.maps.GeocoderStatus.OK) {
-                        if (results[1]) {
-                            document.getElementById('address').value = results[1].formatted_address;
-                        }
-                    }
-                });
-            });
-            const input = document.getElementById("pac-input");
-            const searchBox = new google.maps.places.SearchBox(input);
-            map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
-            map.addListener("bounds_changed", () => {
-                searchBox.setBounds(map.getBounds());
-            });
-            let markers = [];
-            searchBox.addListener("places_changed", () => {
-                const places = searchBox.getPlaces();
-
-                if (places.length === 0) {
-                    return;
-                }
-                markers.forEach((marker) => {
-                    marker.setMap(null);
-                });
-                markers = [];
-                const bounds = new google.maps.LatLngBounds();
-                places.forEach((place) => {
-                    if (!place.geometry || !place.geometry.location) {
-                        console.log("Returned place contains no geometry");
-                        return;
-                    }
-                    var mrkr = new google.maps.Marker({
-                        map,
-                        title: place.name,
-                        position: place.geometry.location,
-                    });
-                    google.maps.event.addListener(mrkr, "click", function(event) {
-                        document.getElementById('latitude').value = this.position.lat();
-                        document.getElementById('longitude').value = this.position.lng();
-                    });
-
-                    markers.push(mrkr);
-
-                    if (place.geometry.viewport) {
-                        bounds.union(place.geometry.viewport);
-                    } else {
-                        bounds.extend(place.geometry.location);
-                    }
-                });
-                map.fitBounds(bounds);
-            });
-        }
 
         $(document).on('ready', function() {
             initAutocomplete();

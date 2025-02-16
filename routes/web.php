@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', function () {
+    return redirect()->route('login', ['tab' => 'admin']);
+})->name('home');
 Route::get('maintenance-mode', 'HomeController@maintenanceMode')->name('maintenance_mode');
 
 //login
@@ -29,18 +30,6 @@ Route::post('reset-password-submit', 'LoginController@reset_password_submit')->n
 Route::get('otp-resent', 'LoginController@otp_resent')->name('otp_resent');
 
 Route::get('lang/{locale}', 'HomeController@lang')->name('lang');
-Route::get('terms-and-conditions', 'HomeController@terms_and_conditions')->name('terms-and-conditions');
-Route::get('about-us', 'HomeController@about_us')->name('about-us');
-Route::match(['get', 'post'],'contact-us', 'HomeController@contact_us')->name('contact-us');
-Route::get('privacy-policy', 'HomeController@privacy_policy')->name('privacy-policy');
-Route::post('newsletter/subscribe', 'NewsletterController@newsLetterSubscribe')->name('newsletter.subscribe');
-
-Route::get('refund-policy', 'HomeController@refund_policy')->name('refund-policy');
-Route::get('shipping-policy', 'HomeController@shipping_policy')->name('shipping-policy');
-Route::get('cancellation-policy', 'HomeController@cancellation_policy')->name('cancellation-policy');
-Route::get('our-team', 'HomeController@team')->name('team');
-Route::get('faq', 'HomeController@faq')->name('faq');
-
 Route::get('authentication-failed', function () {
     $errors = [];
     array_push($errors, ['code' => 'auth-001', 'message' => 'Unauthenticated.']);

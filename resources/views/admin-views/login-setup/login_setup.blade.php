@@ -67,21 +67,21 @@
         <form action="{{route('admin.login_url.login_url_page_update')}}" method="post">
             @csrf
             <h5 class="card-title mb-3 pt-3">
-                <span class="card-header-icon mr-2"><i class="tio-settings-outlined"></i></span> <span>{{ translate('admin_employee_login_page') }}</span>
+                <span class="card-header-icon mr-2"><i class="tio-settings-outlined"></i></span> <span>{{ translate('employee_login_page') }}</span>
             </h5>
             <div class="card">
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <input type="text" hidden  name="type" value="admin_employee">
+                            <input type="text" hidden name="type" value="admin_employee">
 
                             <div class="__bg-F8F9FC-card">
                                 <div class="form-group">
                                     <label  class="form-label">
-                                        {{translate('messages.Admin_employee_login_url')}}
+                                        {{translate('messages.Employee_login_url')}}
                                         <span class="input-label-secondary text--title" data-toggle="tooltip"
                                         data-placement="right"
-                                        data-original-title="{{ translate('Add_dynamic_secure_login_url_for_Admin_Employee') }}">
+                                        data-original-title="{{ translate('Add_dynamic_secure_login_url_for_Employee') }}">
                                             <i class="tio-info-outined"></i>
                                         </span>
                                     </label>

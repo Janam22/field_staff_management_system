@@ -36,10 +36,7 @@
     <div class="d-flex flex-wrap align-items-center justify-content-between">
         <div class="auth-content">
             <div class="content">
-                <h2 class="title text-uppercase">{{translate('messages.welcome_to')}} {{ $app_name??'STACKFOOD' }}</h2>
-                <p>
-                    {{translate('Manage_your_app_&_website_easily')}}
-                </p>
+                <h2 class="title text-uppercase">{{translate('messages.welcome_to')}} {{ $app_name??'Field Staff Management System' }}</h2>
             </div>
         </div>
         <div class="auth-wrapper">
@@ -405,8 +402,6 @@
     </script>
 @endif
 {{-- recaptcha scripts end --}}
-
-
 
 @if(env('APP_MODE') =='demo')
     <script>

@@ -65,76 +65,6 @@ use App\CentralLogics\Helpers;
                     </li>
                     <!-- End Dashboards -->
 
-                    @if (Helpers::module_permission_check('banner'))
-                        <!-- Marketing section -->
-                        <li class="nav-item">
-                            <small class="nav-subtitle"
-                                title="{{ translate('Promotion_management') }}">{{ translate('Banner_management') }}</small>
-                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
-                        </li>
-                    @endif
-
-                    <!-- Banner -->
-                    @if (Helpers::module_permission_check('banner'))
-                        <li
-                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/banner*') && !Request::is('admin/banner/promotional-banner*') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{ route('admin.banner.add-new') }}"
-                                title="{{ translate('messages.banners') }}">
-                                <i class="tio-bookmark nav-icon side-nav-icon--design"></i>
-                                <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('messages.banners') }}</span>
-                            </a>
-                        </li>
-                    @endif
-                    <!-- End Banner -->
-
-                    @if (Helpers::module_permission_check('contact_message'))
-                        <li class="nav-item">
-                            <small class="nav-subtitle">{{ translate('messages.Help_&_Support') }}</small>
-                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
-                        </li>
-                    @endif
-
-                    @if (Helpers::module_permission_check('contact_message'))
-                        <li
-                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/contact/*') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{ route('admin.contact.list') }}"
-                                title="{{ translate('messages.Contact_messages') }}">
-                                <i class="tio-messages nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{ translate('messages.Contact_messages') }}
-                                </span>
-                            </a>
-                        </li>
-                    @endif
-
-                    <!-- Custommer -->
-                    @if (Helpers::module_permission_check('customerList'))
-                        <li class="nav-item">
-                            <small class="nav-subtitle"
-                                title="{{ translate('messages.customer_section') }}">{{ translate('messages.customer_management') }}</small>
-                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
-                        </li>
-                    @endif
-
-                    @if (Helpers::module_permission_check('customerList'))
-                        <li
-                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/customer/subscribed') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{ route('admin.customer.subscribed') }}"
-                                title="{{ translate('messages.Subscribed_Emails') }}">
-                                <i class="tio-email-outlined nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{ translate('messages.subscribed_mail_list') }}
-                                </span>
-                            </a>
-                        </li>
-                        </li>
-                    @endif
-                    <!-- End Customer -->
-
                     @if (Helpers::module_permission_check('custom_role') || Helpers::module_permission_check('employee'))
                         <!-- Employee-->
                         <li class="nav-item">
@@ -232,16 +162,6 @@ use App\CentralLogics\Helpers;
                                 <span class="text-truncate">{{ translate('messages.Admin_Mail_Templates') }}</span>
                             </a>
                         </li>
-
-                        <!-- <li
-                            class="nav-item {{ Request::is('admin/business-settings/email-setup/user*') ? 'active' : '' }}">
-                            <a class="nav-link " href="{{ route('admin.business-settings.email-setup', ['user','registration']) }}"
-                                title="{{ translate('messages.privacy_policy') }}">
-                                <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">{{ translate('messages.Customer_Mail_Templates') }}</span>
-                            </a>
-                        </li> -->
-
                     </ul>
                 </li>
 
@@ -251,62 +171,6 @@ use App\CentralLogics\Helpers;
                         <span class="tio-devices-apple nav-icon"></span>
                         <span class="text-truncate text-capitalize">{{ translate('messages.login_setup') }}</span>
                     </a>
-                </li>
-
-                <!-- web & app Settings -->
-                <li
-                    class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/pages*') || Request::is('admin/business-settings/social-media') ? 'active' : '' }}">
-                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:"
-                        title="{{ translate('messages.Pages_&_Social_Media') }}">
-                        <i class="tio-pages nav-icon"></i>
-                        <span
-                            class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('messages.Pages_&_Social_Media') }}
-                        </span>
-                    </a>
-                    <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
-                        style="display: {{ Request::is('admin/business-settings/pages*') || Request::is('admin/business-settings/social-media') ? 'block' : 'none' }}">
-
-                        <li
-                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/social-media') ? 'active' : '' }}">
-                            <a class="nav-link " href="{{ route('admin.business-settings.social-media.index') }}"
-                                title="{{ translate('messages.Social_Media') }}">
-                                <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">{{ translate('messages.Social_Media') }}</span>
-                            </a>
-                        </li>
-
-                        <li
-                            class="nav-item {{ Request::is('admin/business-settings/pages/terms-and-conditions') ? 'active' : '' }}">
-                            <a class="nav-link " href="{{ route('admin.business-settings.terms-and-conditions') }}"
-                                title="{{ translate('messages.terms_and_condition') }}">
-                                <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">{{ translate('messages.terms_and_condition') }}</span>
-                            </a>
-                        </li>
-
-                        <li
-                            class="nav-item {{ Request::is('admin/business-settings/pages/privacy-policy') ? 'active' : '' }}">
-                            <a class="nav-link " href="{{ route('admin.business-settings.privacy-policy') }}"
-                                title="{{ translate('messages.privacy_policy') }}">
-                                <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">{{ translate('messages.privacy_policy') }}</span>
-                            </a>
-                        </li>
-
-                        <li
-                            class="nav-item {{ Request::is('admin/business-settings/pages/about-us') ? 'active' : '' }}">
-                            <a class="nav-link " href="{{ route('admin.business-settings.about-us') }}"
-                                title="{{ translate('messages.about_us') }}">
-                                <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">{{ translate('messages.about_us') }}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <small class="nav-subtitle"
-                        title="{{ translate('messages.system_settings') }}">{{ translate('messages.system_settings') }}</small>
-                    <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                 </li>
 
                 <li
@@ -330,18 +194,6 @@ use App\CentralLogics\Helpers;
                             </a>
                         </li>
                     </ul>
-                </li>
-
-                <li
-                    class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/db-index') ? 'active' : '' }}">
-                    <a class="js-navbar-vertical-aside-menu-link nav-link"
-                        href="{{ route('admin.business-settings.db-index') }}"
-                        title="{{ translate('messages.clean_database') }}">
-                        <i class="tio-cloud nav-icon"></i>
-                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                            {{ translate('messages.clean_database') }}
-                        </span>
-                    </a>
                 </li>
 
                 @endif

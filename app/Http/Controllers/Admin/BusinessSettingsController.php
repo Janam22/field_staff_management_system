@@ -127,61 +127,6 @@ class BusinessSettingsController extends Controller
         return back();
     }
 
-    public function storage_connection_index(Request $request)
-    {
-        return view('admin-views.business-settings.storage-connection-index');
-    }
-
-    public function storage_connection_update(Request $request, $name)
-    {
-        if($name == 'local_storage'){
-            DB::table('business_settings')->updateOrInsert(['key' => 'local_storage'], [
-                'key' => 'local_storage',
-                'value' => $request->status??0,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            DB::table('business_settings')->updateOrInsert(['key' => '3rd_party_storage'], [
-                'key' => '3rd_party_storage',
-                'value' => $request->status=='1'?0:1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-        if($name == '3rd_party_storage'){
-            DB::table('business_settings')->updateOrInsert(['key' => '3rd_party_storage'], [
-                'key' => '3rd_party_storage',
-                'value' => $request->status??0,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            DB::table('business_settings')->updateOrInsert(['key' => 'local_storage'], [
-                'key' => 'local_storage',
-                'value' => $request->status=='1'?0:1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-        if($name == 'storage_connection') {
-            DB::table('business_settings')->updateOrInsert(['key' => 's3_credential'], [
-                'key' => 's3_credential',
-                'value' => json_encode([
-                    'key' => $request['key'],
-                    'secret' => $request['secret'],
-                    'region' => $request['region'],
-                    'bucket' => $request['bucket'],
-                    'url' => $request['url'],
-                    'end_point' => $request['end_point']
-                ]),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-
-        Toastr::success(translate('messages.updated_successfully'));
-        return back();
-    }
-
     public function mail_index()
     {
         return view('admin-views.business-settings.mail-index');

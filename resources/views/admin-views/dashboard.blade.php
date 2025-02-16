@@ -13,7 +13,7 @@
             <div class="d-flex flex-wrap justify-content-between align-items-center">
                 <div class="page--header-title">
                     <h1 class="page-header-title">{{translate('messages.welcome')}}, {{auth('admin')->user()->f_name}}.</h1>
-                    <p class="page-header-text">{{translate('messages.Hello,_here_you_can_manage_your_website_by_organizations.')}}</p>
+                    <p class="page-header-text">{{translate('messages.Hello,_here_you_can_manage_your_system.')}}</p>
                 </div>
             </div>
         </div>
