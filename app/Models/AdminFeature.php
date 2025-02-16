@@ -26,10 +26,6 @@ class AdminFeature extends Model
 
         return Helpers::get_full_url('feature_image',$value,'public');
     }
-    public function translations()
-    {
-        return $this->morphMany(Translation::class, 'translationable');
-    }
     protected $guarded = ['id'];
 
     protected $casts = [

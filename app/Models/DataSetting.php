@@ -23,7 +23,6 @@ class DataSetting extends Model
         return $this->morphMany(Translation::class, 'translationable');
     }
 
-
     public function getValueAttribute($value){
         if (count($this->translations) > 0) {
             foreach ($this->translations as $translation) {
