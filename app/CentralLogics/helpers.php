@@ -868,8 +868,11 @@ class Helpers
     }
 
     public static function time_date_format($data){
+        if (empty($data)) {
+            return null; // Return null or any default text like 'N/A'
+        }
         $time=config('timeformat') ?? 'H:i';
-        return  Carbon::parse($data)->locale(app()->getLocale())->translatedFormat('d M Y ' . $time);
+        return Carbon::parse($data)->locale(app()->getLocale())->translatedFormat('d M Y ' . $time);
     }
 
     public static function date_format($data){

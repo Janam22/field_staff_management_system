@@ -63,7 +63,29 @@ use App\CentralLogics\Helpers;
                             </span>
                         </a>
                     </li>
+
                     <!-- End Dashboards -->
+                    @if (Helpers::module_permission_check('staff_attendance'))
+                        <!-- Employee-->
+                        <li class="nav-item">
+                            <small class="nav-subtitle"
+                                title="{{ translate('messages.attendance_handle') }}">{{ translate('messages.Staff_Attendance') }}</small>
+                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                        </li>
+                    @endif
+
+                    @if (Helpers::module_permission_check('staff_attendance'))
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/staff-attendance*') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.staff-attendance.list') }}"
+                                title="{{ translate('messages.staff_attendance') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('staff_attendance') }}</span>
+                            </a>
+                        </li>
+                    @endif
 
                     @if (Helpers::module_permission_check('custom_role') || Helpers::module_permission_check('employee'))
                         <!-- Employee-->

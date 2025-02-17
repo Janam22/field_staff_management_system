@@ -7,9 +7,64 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 
 class AttendanceController extends Controller
 {
+    public function list(Request $request)
+    {
+        $show_limit =  $request->show_limit ?? null;
+        $attendance_logs = $this->getAttendanceListData($request);
+        if (isset($show_limit) && $show_limit > 0) {
+            $attendance_logs = $attendance_logs->take($show_limit)->get();
+            $perPage = config('default_pagination');
+            $page =  $request?->page ?? 1;
+            $offset = ($page - 1) * $perPage;
+            $itemsForCurrentPage = $attendance_logs->slice($offset, $perPage);
+            $attendance_logs = new \Illuminate\Pagination\LengthAwarePaginator(
+                $itemsForCurrentPage,
+                $attendance_logs->count(),
+                $perPage,
+                $page,
+                options: ['path' => Paginator::resolveCurrentPath(), 'query' => request()->query()]
+            );
+        } else {
+            $attendance_logs = $attendance_logs->paginate(config('default_pagination'));
+        }
+        return view('admin-views.attendance-log.list', compact('attendance_logs'));
+    }
+    
+    private function getAttendanceListData($request)
+    {
+        $key = [];
+        if ($request->search) {
+            $key = explode(' ', $request['search']);
+        }
+
+        $from_date = null;
+        $to_date = null;
+
+        if ($request?->attendance_date) {
+            list($from_date, $to_date) = explode(' - ', $request?->attendance_date);
+            $from_date = Carbon::createFromFormat('m/d/Y', $from_date)->startOfDay();
+            $to_date = Carbon::createFromFormat('m/d/Y', $to_date)->endOfDay();
+        }
+
+        $attendance_logs = AttendanceLog::with('employee')
+            ->leftJoin('admins', 'admins.id', '=', 'attendance_logs.emp_id')
+            ->when(count($key) > 0, function ($query) use ($key) {
+                foreach ($key as $value) {
+                    $query->orWhere('admins.f_name', 'like', "%{$value}%")
+                        ->orWhere('admins.l_name', 'like', "%{$value}%");
+                }
+            })
+            ->when(isset($request->attendance_date), function ($query) use ($from_date, $to_date) {
+                $query->WhereBetween('attendance_logs.created_at', [$from_date, $to_date]);
+            });
+
+        return $attendance_logs;
+    }
+
     public function check_in(Request $request)
     {        
         $request->validate([

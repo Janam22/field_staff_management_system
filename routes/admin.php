@@ -41,6 +41,10 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::post('check-in', 'AttendanceController@check_in')->name('checkin');
             Route::post('check-out', 'AttendanceController@check_out')->name('checkout');
         });
+        
+        Route::group(['prefix' => 'staff-attendance', 'as' => 'staff-attendance.', 'middleware' => ['module:staff_attendance']], function () {
+            Route::get('list', 'AttendanceController@list')->name('list');
+        });
 
         Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.', 'middleware' => ['module:settings', 'actch']], function () {
             Route::post('update-landing-setup', 'BusinessSettingsController@landing_page_settings_update')->name('business-setup.update-landing-setup');
