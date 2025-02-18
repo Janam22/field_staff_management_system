@@ -75,7 +75,7 @@ function getcheckinLocation() {
                         toastr.success(data.message); // Show Toastr notification
                         setTimeout(() => {
                             location.reload(); // Reload after showing Toastr
-                        }, 100);
+                        }, 3000);
                     }
                 })
                 .catch(error => {
@@ -88,7 +88,7 @@ function getcheckinLocation() {
             },
             {
                 enableHighAccuracy: true, // Ensure precise tracking
-                timeout: 10000, // Maximum wait time of 10 seconds
+                timeout: 30000, // Maximum wait time of 10 seconds
                 maximumAge: 0 // Prevents caching of old location data
             }
         );
@@ -122,7 +122,7 @@ function getcheckoutLocation() {
                         toastr.success(data.message); // Show Toastr notification
                         setTimeout(() => {
                             location.reload(); // Reload after showing Toastr
-                        }, 100);
+                        }, 3000);
                     }
                 })
                 .catch(error => {
@@ -135,7 +135,7 @@ function getcheckoutLocation() {
             },
             {
                 enableHighAccuracy: true, // Ensure precise tracking
-                timeout: 10000, // Maximum wait time of 10 seconds
+                timeout: 30000, // Maximum wait time of 10 seconds
                 maximumAge: 0 // Prevents caching of old location data
             }
         );
