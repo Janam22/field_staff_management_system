@@ -62,6 +62,7 @@ function getcheckinLocation() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "Accept": "application/json",
                         "X-CSRF-TOKEN": "{{ csrf_token() }}"
                     },
                     body: JSON.stringify({
@@ -88,7 +89,7 @@ function getcheckinLocation() {
             },
             {
                 enableHighAccuracy: true, // Ensure precise tracking
-                timeout: 30000, // Maximum wait time of 10 seconds
+                timeout: 60000, // Maximum wait time of 10 seconds
                 maximumAge: 0 // Prevents caching of old location data
             }
         );
@@ -135,7 +136,7 @@ function getcheckoutLocation() {
             },
             {
                 enableHighAccuracy: true, // Ensure precise tracking
-                timeout: 30000, // Maximum wait time of 10 seconds
+                timeout: 60000, // Maximum wait time of 10 seconds
                 maximumAge: 0 // Prevents caching of old location data
             }
         );
