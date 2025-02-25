@@ -52,7 +52,6 @@ class EmployeeController extends Controller
         $employee->f_name = $request->f_name;
         $employee->l_name = $request->l_name;
         $employee->phone = $request->phone;
-        $employee->zone_id = $request->zone_id;
         $employee->email = $request->email;
         $employee->role_id = $request->role_id;
         $employee->password = bcrypt($request->password);
@@ -149,7 +148,6 @@ class EmployeeController extends Controller
         $employee->f_name = $request->f_name;
         $employee->l_name = $request->l_name;
         $employee->phone = $request->phone;
-        $employee->zone_id = $request->zone_id;
         $employee->email = $request->email;
         $employee->role_id = $request->role_id;
         $employee->password = $pass;

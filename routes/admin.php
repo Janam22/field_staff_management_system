@@ -42,6 +42,14 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::post('check-out', 'AttendanceController@check_out')->name('checkout');
         });
         
+        Route::group(['prefix' => 'leave', 'as' => 'leave-request.', 'middleware' => ['module:leave']], function () {
+            Route::get('leave-requests', 'LeaveController@list')->name('list');
+            Route::get('leave-request-new', 'LeaveController@request')->name('request');
+            Route::post('leave-request-store', 'LeaveController@store')->name('store');  
+            Route::post('status/{id}/{leave_status}', 'LeaveController@status')->name('status');
+            Route::get('my-leave-requests', 'LeaveController@my_request')->name('my-requests');
+        });
+        
         Route::group(['prefix' => 'staff-attendance', 'as' => 'staff-attendance.', 'middleware' => ['module:staff_attendance']], function () {
             Route::get('list', 'AttendanceController@list')->name('list');
         });

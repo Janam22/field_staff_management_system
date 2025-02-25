@@ -1,6 +1,4 @@
-<?php
-use App\CentralLogics\Helpers;
-?>
+<?php use App\CentralLogics\Helpers; ?>
 
 <div id="sidebarMain" class="d-none">
     <aside
@@ -86,6 +84,55 @@ use App\CentralLogics\Helpers;
                             </a>
                         </li>
                     @endif
+
+                    @if (Helpers::module_permission_check('leave'))
+                        <!-- Employee-->
+                        <li class="nav-item">
+                            <small class="nav-subtitle"
+                                title="{{ translate('messages.leave_handle') }}">{{ translate('messages.Leave_Management') }}</small>
+                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                        </li>
+                    @endif
+
+                    @if (Helpers::module_permission_check('leave'))
+                    
+                        @if(auth('admin')->user()->role_id !== 1)
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/leave/leave-request-new') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.leave-request.request') }}"
+                                title="{{ translate('messages.leave') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('request_new_leave') }}</span>
+                            </a>
+                        </li>
+                        
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/leave/my-leave-requests') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.leave-request.my-requests') }}"
+                                title="{{ translate('messages.leave') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('my_leave_requests') }}</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if(auth('admin')->user()->role_id == 1)
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/leave/leave-requests') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.leave-request.list') }}"
+                                title="{{ translate('messages.leave') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('leave_request_lists') }}</span>
+                            </a>
+                        </li>
+                        @endif
+                    @endif
+
 
                     @if (Helpers::module_permission_check('custom_role') || Helpers::module_permission_check('employee'))
                         <!-- Employee-->
