@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AttendanceLogListExport;
 
 class AttendanceController extends Controller
 {
@@ -52,6 +54,7 @@ class AttendanceController extends Controller
 
         $attendance_logs = AttendanceLog::with('employee')
             ->leftJoin('admins', 'admins.id', '=', 'attendance_logs.emp_id')
+            ->select('attendance_logs.*', 'admins.f_name', 'admins.l_name') 
             ->when(count($key) > 0, function ($query) use ($key) {
                 foreach ($key as $value) {
                     $query->orWhere('admins.f_name', 'like', "%{$value}%")
@@ -117,6 +120,62 @@ class AttendanceController extends Controller
             'status' => 'success',
             'message' => translate('messages.checked_out_successful')
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        $show_limit =  $request->show_limit ?? null;
+        $attendance_logs = $this->getStaffAttendanceListData($request);
+        if (isset($show_limit) && $show_limit > 0) {
+            $attendance_logs = $attendance_logs->take($show_limit)->get();
+        } else {
+            $attendance_logs = $attendance_logs->get();
+        }
+
+        $data = [
+            'attendance_logs' => $attendance_logs,
+            'filter' => $request->filter ?? null,
+            'show_limit' => $request->show_limit ?? null,
+            'attendance_date' => $request?->attendance_date,
+            'search' => $request->search ?? null,
+        ];
+
+        if ($request->type == 'excel') {
+            return Excel::download(new AttendanceLogListExport($data), 'attendance_logs.xlsx');
+        } else if ($request->type == 'csv') {
+            return Excel::download(new AttendanceLogListExport($data), 'attendance_logs.csv');
+        }
+    }
+    private function getStaffAttendanceListData($request)
+    {
+        $key = [];
+        if ($request->search) {
+            $key = explode(' ', $request['search']);
+        }
+
+        $from_date = null;
+        $to_date = null;
+
+        if ($request?->attendance_date) {
+            list($from_date, $to_date) = explode(' - ', $request?->attendance_date);
+            $from_date = Carbon::createFromFormat('m/d/Y', $from_date)->startOfDay();
+            $to_date = Carbon::createFromFormat('m/d/Y', $to_date)->endOfDay();
+        }
+
+        $attendance_logs = AttendanceLog::with('employee')
+            ->leftJoin('admins', 'admins.id', '=', 'attendance_logs.emp_id')
+            ->select('attendance_logs.*', 'admins.f_name', 'admins.l_name') 
+            ->when(count($key) > 0, function ($query) use ($key) {
+                foreach ($key as $value) {
+                    $query->orWhere('admins.f_name', 'like', "%{$value}%")
+                        ->orWhere('admins.l_name', 'like', "%{$value}%");
+                }
+            })
+            ->when(isset($request->attendance_date), function ($query) use ($from_date, $to_date) {
+                $query->WhereBetween('attendance_logs.created_at', [$from_date, $to_date]);
+            });
+
+        return  $attendance_logs;
     }
 
 }

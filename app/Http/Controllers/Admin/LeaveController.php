@@ -8,6 +8,9 @@ use App\Models\LeaveRequest;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LeaveRequestListExport;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LeaveController extends Controller
 {
@@ -40,24 +43,14 @@ class LeaveController extends Controller
 
     public function list(Request $request)
     {        
-        $show_limit =  $request->show_limit ?? null;
+        $show_limit = $request->show_limit ?? null;
         $leave_request_logs = $this->getLeaveListData($request);
-        if (isset($show_limit) && $show_limit > 0) {
-            $leave_request_logs = $leave_request_logs->take($show_limit)->get();
-            $perPage = config('default_pagination');
-            $page =  $request?->page ?? 1;
-            $offset = ($page - 1) * $perPage;
-            $itemsForCurrentPage = $leave_request_logs->slice($offset, $perPage);
-            $attendance_logs = new \Illuminate\Pagination\LengthAwarePaginator(
-                $itemsForCurrentPage,
-                $leave_request_logs->count(),
-                $perPage,
-                $page,
-                options: ['path' => Paginator::resolveCurrentPath(), 'query' => request()->query()]
-            );
-        } else {
-            $leave_request_logs = $leave_request_logs->paginate(config('default_pagination'));
-        }
+    
+        $perPage = $show_limit && $show_limit > 0 ? $show_limit : config('default_pagination');
+    
+        // Use Laravel's built-in pagination
+        $leave_request_logs = $leave_request_logs->paginate($perPage);
+    
         return view('admin-views.leave.list', compact('leave_request_logs'));
     }
     
@@ -145,6 +138,62 @@ class LeaveController extends Controller
 
         Toastr::success(translate('messages.Leave_request_updated_successfully'));
         return back();
+    }
+
+    public function export(Request $request)
+    {
+        $show_limit =  $request->show_limit ?? null;
+        $leave_requests = $this->getLeaveRequestListData($request);
+        if (isset($show_limit) && $show_limit > 0) {
+            $leave_requests = $leave_requests->take($show_limit)->get();
+        } else {
+            $leave_requests = $leave_requests->get();
+        }
+
+        $data = [
+            'leave_requests' => $leave_requests,
+            'filter' => $request->filter ?? null,
+            'show_limit' => $request->show_limit ?? null,
+            'leave_request_date' => $request?->leave_request_date,
+            'search' => $request->search ?? null,
+        ];
+
+        if ($request->type == 'excel') {
+            return Excel::download(new LeaveRequestListExport($data), 'leave_requests.xlsx');
+        } else if ($request->type == 'csv') {
+            return Excel::download(new LeaveRequestListExport($data), 'leave_requests.csv');
+        }
+    }
+    private function getLeaveRequestListData($request)
+    {
+        $key = [];
+        if ($request->search) {
+            $key = explode(' ', $request['search']);
+        }
+
+        $from_date = null;
+        $to_date = null;
+
+        if ($request?->leave_request_date) {
+            list($from_date, $to_date) = explode(' - ', $request?->leave_request_date);
+            $from_date = Carbon::createFromFormat('m/d/Y', $from_date)->startOfDay();
+            $to_date = Carbon::createFromFormat('m/d/Y', $to_date)->endOfDay();
+        }
+
+        $leave_requests = LeaveRequest::with('employee')
+            ->leftJoin('admins', 'admins.id', '=', 'leave_requests.emp_id')
+            ->select('leave_requests.*', 'admins.f_name', 'admins.l_name') 
+            ->when(count($key) > 0, function ($query) use ($key) {
+                foreach ($key as $value) {
+                    $query->orWhere('admins.f_name', 'like', "%{$value}%")
+                        ->orWhere('admins.l_name', 'like', "%{$value}%");
+                }
+            })
+            ->when(isset($request->leave_request_date), function ($query) use ($from_date, $to_date) {
+                $query->WhereBetween('leave_requests.created_at', [$from_date, $to_date]);
+            });
+
+        return  $leave_requests;
     }
 
 }

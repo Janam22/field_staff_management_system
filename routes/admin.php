@@ -40,6 +40,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::group(['prefix' => 'attendance', 'as' => 'attendance.', 'middleware' => ['module:attendance']], function () {
             Route::post('check-in', 'AttendanceController@check_in')->name('checkin');
             Route::post('check-out', 'AttendanceController@check_out')->name('checkout');
+            Route::get('export', 'AttendanceController@export')->name('export');
         });
         
         Route::group(['prefix' => 'leave', 'as' => 'leave-request.', 'middleware' => ['module:leave']], function () {
@@ -48,6 +49,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::post('leave-request-store', 'LeaveController@store')->name('store');  
             Route::post('status/{id}/{leave_status}', 'LeaveController@status')->name('status');
             Route::get('my-leave-requests', 'LeaveController@my_request')->name('my-requests');
+            Route::get('export', 'LeaveController@export')->name('export');
         });
         
         Route::group(['prefix' => 'staff-attendance', 'as' => 'staff-attendance.', 'middleware' => ['module:staff_attendance']], function () {

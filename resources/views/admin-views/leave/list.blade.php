@@ -22,7 +22,6 @@
         </div>
         <!-- End Page Header -->
 
-
         <!-- End Page Header -->
         <div class="card mb-3">
             <div class="card-body">
@@ -38,7 +37,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">{{ translate('Choose First') }}</label>
+                            <label class="form-label">{{ translate('Show Limit') }}</label>
                             <input type="number" min="1" name="show_limit" class="form-control"
                                 value="{{ request()->get('show_limit') }}" placeholder="{{ translate('Ex : 100') }}">
                         </div>
@@ -92,14 +91,14 @@
                                 class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right">
                                 <span class="dropdown-header">{{ translate('messages.download_options') }}</span>
                                 <a id="export-excel" class="dropdown-item"
-                                    href="">
+                                    href="{{ route('admin.leave-request.export', ['type' => 'excel', request()->getQueryString()]) }}">
                                     <img class="avatar avatar-xss avatar-4by3 mr-2"
                                         src="{{ dynamicAsset('public/assets/admin') }}/svg/components/excel.svg"
                                         alt="Image Description">
                                     {{ translate('messages.excel') }}
                                 </a>
                                 <a id="export-csv" class="dropdown-item"
-                                    href="">
+                                    href="{{ route('admin.leave-request.export', ['type' => 'csv', request()->getQueryString()]) }}">
                                     <img class="avatar avatar-xss avatar-4by3 mr-2"
                                         src="{{ dynamicAsset('public/assets/admin') }}/svg/components/placeholder-csv-format.svg"
                                         alt="Image Description">
@@ -216,7 +215,7 @@
                     </tbody>
                 </table>
             </div>
-            @if ($leave_request_logs->total() === 0)
+            @if($leave_request_logs->total() === 0)
                 <div class="empty--data">
                     <img src="{{ dynamicAsset('/public/assets/admin/img/empty.png') }}" alt="public">
                     <h5>
