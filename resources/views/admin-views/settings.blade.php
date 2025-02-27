@@ -137,11 +137,11 @@
                                         class="input-label-secondary">({{translate('messages.optional')}})</span></label>
 
                                 <div class="col-sm-9">
-                                    <input type="tel" class="js-masked-input form-control h--45px" name="phone" id="phoneLabel"
-                                           placeholder="{{ translate('messages.Ex:_+x(xxx)xxx-xx-xx') }} " aria-label="+(xxx)xx-xxx-xxxxx"
+                                    <input type="text" class="js-masked-input form-control h--45px" name="phone" id="phoneLabel"
+                                           placeholder="{{ translate('messages.Ex:_98********') }} " aria-label="98********"
                                            value="{{auth('admin')->user()->phone}}"
                                            data-hs-mask-options='{
-                                           "template": "+(880)00-000-00000"
+                                           "template": "98********"
                                          }'>
                                 </div>
                             </div>

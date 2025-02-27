@@ -68,8 +68,8 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <label class="form-label " for="phone">{{translate('messages.phone')}}</label>
-                                        <input type="tel" name="phone" value="{{$e['phone']}}" class="form-control h--45px" id="phone"
-                                            placeholder="{{ translate('messages.Ex:_+97798********') }} " required>
+                                        <input type="text" name="phone" value="{{$e['phone']}}" class="form-control h--45px" id="phone"
+                                            placeholder="{{ translate('messages.Ex:_98********') }} " required>
                                     </div>
                                 </div>
                             </div>
