@@ -297,7 +297,6 @@
                 }
             });
 
-
         $(document).on('ready', function() {
 
             if (window.localStorage.getItem('hs-builder-popover') === null) {
