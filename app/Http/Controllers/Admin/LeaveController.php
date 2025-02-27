@@ -25,6 +25,7 @@ class LeaveController extends Controller
             'leave_type' => 'required',
             'from_date' => 'required',
             'to_date' => 'required',
+            'subject' => 'required',
             'reason' => 'required',
         ]);
         $user_id = auth('admin')->user()->id;
@@ -34,6 +35,7 @@ class LeaveController extends Controller
         $leave_request->leave_type = $request->leave_type;
         $leave_request->from_date = $request->from_date;
         $leave_request->to_date = $request->to_date;
+        $leave_request->subject = $request->subject;
         $leave_request->reason_description = $request->reason;
         $leave_request->save();
 
@@ -73,6 +75,7 @@ class LeaveController extends Controller
         $leave_request_logs = LeaveRequest::with('employee')
             ->leftJoin('admins', 'admins.id', '=', 'leave_requests.emp_id')
             ->select('leave_requests.*', 'admins.f_name', 'admins.l_name') 
+            ->orderby('created_at', 'desc')
             ->when(count($key) > 0, function ($query) use ($key) {
                 foreach ($key as $value) {
                     $query->orWhere('admins.f_name', 'like', "%{$value}%")
@@ -123,6 +126,7 @@ class LeaveController extends Controller
         $user_id = auth('admin')->user()->id;
         $leave_request_logs = LeaveRequest::with('employee')
             ->where('emp_id', $user_id)
+            ->orderby('created_at', 'desc')
             ->when(isset($request->leave_request_date), function ($query) use ($from_date, $to_date) {
                 $query->WhereBetween('leave_requests.created_at', [$from_date, $to_date]);
             });

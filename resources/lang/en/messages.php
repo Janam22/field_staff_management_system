@@ -6942,4 +6942,6 @@
   'checkout_time' => 'Checkout time',
   'checkout_latitude' => 'Checkout latitude',
   'checkout_longitude' => 'Checkout longitude',
+  'Ex:_subject' => 'Ex: subject',
+  'subject' => 'Subject',
 );

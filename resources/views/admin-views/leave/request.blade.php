@@ -43,8 +43,8 @@
                                                 <label class="form-label " for="fname">{{translate('messages.leave_type')}}</label>
                                                 <select class="w-100 form-control h--45px js-select2-custom" name="leave_type" id="leave_type">
                                                     <option value="" selected disabled>{{translate('messages.select_leave')}}</option>
-                                                        <option value="pl">Personal Leave</option>
-                                                        <option value="sl">Sick Leave</option>
+                                                    <option value="sl">Sick Leave</option>
+                                                    <option value="el">Emergency Leave</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -58,6 +58,12 @@
                                             <div class="form-group mb-0">
                                                 <label class="form-label " for="to_date">{{translate('messages.End_date')}}</label>
                                                 <input type="date" name="to_date" class="form-control h--45px" id="to_date" value="{{old('to_date')}}" placeholder="{{ translate('Ex:_leave_ending_date') }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group mb-0">
+                                                <label class="form-label " for="subject">{{translate('messages.Subject')}}</label>
+                                                <input type="text" name="subject" class="form-control h--45px" id="subject" value="{{old('subject')}}" placeholder="{{ translate('Ex:_subject') }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">

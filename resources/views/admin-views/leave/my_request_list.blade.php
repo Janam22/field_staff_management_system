@@ -94,6 +94,7 @@
                             <th class="border-0">{{ translate('messages.leave_type') }}</th>
                             <th class="border-0">{{ translate('messages.start_date') }}</th>
                             <th class="border-0">{{ translate('messages.end_date') }}</th>
+                            <th class="border-0">{{ translate('messages.subject') }}</th>
                             <th class="border-0">{{ translate('messages.request_reason') }}</th>
                             <th class="border-0">{{ translate('messages.status') }}</th>
                         </tr>
@@ -115,8 +116,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if($my_leave_request_log->leave_type == 'pl')
-                                        Personal Leave
+                                    @if($my_leave_request_log->leave_type == 'el')
+                                        Emergency Leave
                                     @elseif($my_leave_request_log->leave_type == 'sl')
                                         Sick Leave
                                     @else
@@ -130,13 +131,21 @@
                                 </td>
                                 <td>
                                     <label class="badge">
-                                    {{ \App\CentralLogics\Helpers::date_format($my_leave_request_log->to_date) }}
+                                        {{ \App\CentralLogics\Helpers::date_format($my_leave_request_log->to_date) }}
                                     </label>
                                 </td>                
                                 <td>
-                                    {{ $my_leave_request_log->reason_description }}
-                                </td>       
+                                    {{ $my_leave_request_log->subject }}
+                                </td>            
                                 <td>
+                                    {{ $my_leave_request_log->reason_description }}
+                                </td>      
+                                <td class="
+                                    @if($my_leave_request_log->leave_status == 'pending') text-secondary
+                                    @elseif($my_leave_request_log->leave_status == 'approved') text-success
+                                    @elseif($my_leave_request_log->leave_status == 'rejected') text-danger
+                                    @endif
+                                ">
                                     {{ ucfirst($my_leave_request_log->leave_status) }}
                                 </td>
                             </tr>

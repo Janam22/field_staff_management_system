@@ -47,6 +47,7 @@
             <th>{{ translate('leave_type') }}</th>
             <th>{{ translate('start_date') }}</th>
             <th>{{ translate('end_date') }}</th>
+            <th>{{ translate('subject') }}</th>
             <th>{{ translate('request_reason') }}</th>
             <th>{{ translate('status') }} </th>
         </thead>
@@ -56,8 +57,8 @@
             <td>{{ $key+1}}</td>
             <td>{{ $leave_request->employee->f_name . ' ' . $leave_request->employee->l_name }}</td>
             <td>
-                @if($leave_request->leave_type == 'pl')
-                    Personal Leave
+                @if($leave_request->leave_type == 'el')
+                    Emergency Leave
                 @elseif($leave_request->leave_type == 'sl')
                     Sick Leave
                 @else
@@ -66,6 +67,7 @@
             </td>
             <td>{{ $leave_request->from_date }}</td>
             <td>{{ $leave_request->to_date }}</td>
+            <td>{{ $leave_request->subject }}</td>
             <td>{{ $leave_request->reason_description }}</td>
             <td>{{ ucfirst($leave_request->leave_status) }}</td>
         </tr>
