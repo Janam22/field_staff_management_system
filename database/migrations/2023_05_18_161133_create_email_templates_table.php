@@ -14,7 +14,7 @@ class CreateEmailTemplatesTable extends Migration
     public function up()
     {
         Schema::create('email_templates', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement()->unsigned();
             $table->string('title',100)->nullable();
             $table->text('body')->nullable();
             $table->string('background_image',100)->nullable();
@@ -28,15 +28,6 @@ class CreateEmailTemplatesTable extends Migration
             $table->string('type')->nullable();
             $table->string('email_type')->nullable();
             $table->string('email_template')->nullable();
-            $table->boolean('privacy')->default(0);
-            $table->boolean('refund')->default(0);
-            $table->boolean('cancelation')->default(0);
-            $table->boolean('contact')->default(0);
-            $table->boolean('facebook')->default(0);
-            $table->boolean('instagram')->default(0);
-            $table->boolean('twitter')->default(0);
-            $table->boolean('linkedin')->default(0);
-            $table->boolean('pinterest')->default(0);
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

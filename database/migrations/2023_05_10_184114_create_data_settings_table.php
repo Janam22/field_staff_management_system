@@ -14,7 +14,7 @@ class CreateDataSettingsTable extends Migration
     public function up()
     {
         Schema::create('data_settings', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement()->unsigned();
             $table->string('key');
             $table->text('value')->nullable();
             $table->string('type');

@@ -14,7 +14,7 @@ class CreateTranslationsTable extends Migration
     public function up()
     {
         Schema::create('translations', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement()->unsigned();
             $table->string('translationable_type');
             $table->unsignedBigInteger('translationable_id')->index();
             $table->string('locale')->index();

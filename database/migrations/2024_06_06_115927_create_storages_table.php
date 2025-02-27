@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('storages', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement()->unsigned();
             $table->string('data_type');
             $table->string('data_id',100)->index();
             $table->string('key')->nullable();
