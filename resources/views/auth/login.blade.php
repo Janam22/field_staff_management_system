@@ -113,12 +113,7 @@
                         </div>
                     <!-- End Checkbox -->
                     <!-- forget password -->
-                        <div class="form-group {{ $role == 'admin' ? '' : 'd-none' }}"  id="forget-password">
-                            <div class="custom-control">
-                                <span type="button" data-toggle="modal" data-target="#forgetPassModal">{{ translate('Forget_Password?') }}</span>
-                            </div>
-                        </div>
-                        <div class="form-group {{ $role == 'vendor' ? '' : 'd-none' }}"  id="forget-password1">
+                        <div class="form-group"  id="forget-password1">
                             <div class="custom-control">
                                 <span type="button" data-toggle="modal" data-target="#forgetPassModal1">{{ translate('Forget_Password?') }}</span>
                             </div>
@@ -166,69 +161,12 @@
 
                 <!-- End Content -->
             </div>
-            @if(env('APP_MODE') =='demo' )
-                @if (isset($role) &&  $role == 'admin')
-                    <div class="auto-fill-data-copy">
-                        <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div>
-                                <span class="d-block"><strong>Email</strong> : admin@admin.com</span>
-                                <span class="d-block"><strong>Password</strong> : 12345678</span>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary m-0" id="copy_cred"><i class="tio-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (isset($role) &&  $role == 'vendor')
-                    <div class="auto-fill-data-copy">
-                        <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div>
-                                <span class="d-block"><strong>Email</strong> : test.restaurant@gmail.com</span>
-                                <span class="d-block"><strong>Password</strong> : 12345678</span>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary m-0" id="copy_cred2"><i class="tio-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            @endif
         </div>
     </div>
 </main>
 <!-- ========== END MAIN CONTENT ========== -->
 
-
-<div class="modal fade" id="forgetPassModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header justify-content-end">
-          <span type="button" class="close-modal-icon" data-dismiss="modal">
-              <i class="tio-clear"></i>
-          </span>
-        </div>
-        <div class="modal-body">
-          <div class="forget-pass-content">
-              <img src="{{dynamicAsset('/public/assets/admin/img/send-mail.svg')}}" alt="">
-              <!-- After Succeed -->
-              <h4>
-                  {{ translate('Send_Mail_to_Your_Email_?') }}
-              </h4>
-              <p>
-                  {{ translate('A_mail_will_be_send_to_your_registered_email_with_a_link_to_change_passowrd') }}
-              </p>
-              <a class="btn btn-lg btn-block btn--primary mt-3" href="{{route('reset-password')}}">
-                  {{ translate('Send_Mail') }}
-              </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="forgetPassModal1">
+<div class="modal fade" id="forgetPassModal1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header justify-content-end">
@@ -243,9 +181,10 @@
               <h4>
                   {{ translate('messages.Send_Mail_to_Your_Email_?') }}
               </h4>
-              <form class="" action="{{ route('vendor-reset-password') }}" method="post">
+              <form class="" action="{{ route('reset-password') }}" method="post">
                   @csrf
 
+                  <input type="hidden" name="role" value="{{ $role }}">
                   <input type="email" name="email" id="" class="form-control" required>
                   <button type="submit" class="btn btn-lg btn-block btn--primary mt-3">{{ translate('messages.Send_Mail') }}</button>
               </form>

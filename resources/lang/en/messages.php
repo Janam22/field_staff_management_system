@@ -6981,4 +6981,12 @@
   'show_hide_email_format' => 'Show hide email format',
   'If_enabled,_user_will_receive_an_email_when_a_user_click_on_‘Forgot_Password.’' => 'If enabled, user will receive an email when a user click on ‘Forgot Password.’',
   'If_disabled,_user_will_not_receive_an_email_when_a_user_click_on_‘Forgot_Password.’' => 'If disabled, user will not receive an email when a user click on ‘Forgot Password.’',
+  'Failed_to_send_mail' => 'Failed to send mail',
+  'Password_recovery' => 'Password recovery',
+  'Password_reset' => 'Password reset',
+  'New_Password' => 'New Password',
+  'Confirm_Password' => 'Confirm Password',
+  'Change_Password' => 'Change Password',
+  'The role field is required.' => 'The role field is required.',
+  'password_changed_successfully' => 'Password changed successfully',
 );

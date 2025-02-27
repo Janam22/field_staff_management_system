@@ -115,12 +115,8 @@
         <tr>
             <td style="padding:0 30px 30px; text-align:left">
                 <span style="font-weight:500;display:block;margin: 20px 0 11px;" id="mail-body">{!! $body??'Please click the link below to change your password' !!}</span>
-                {{-- <span style="display:block;margin-bottom:14px">
-                    Please click <a href="" style="font-weight:500;color:#0177CD">Here</a>  or click the link below to change your password
-                </span> --}}
                 @if (isset($url))
                 <span style="display:block;margin-bottom:14px">
-                    {{-- <span style="display:block" id="mail-button">{{ $data['button_name']??'Click Here' }}</span> --}}
                     <a href="{{ $url }}" style="color: #0177CD">{{ $url }}</a>
                 </span>
                 @endif
@@ -139,29 +135,8 @@
                 @else
                 <img style="width:120px;display:block;margin:10px auto"  src="{{dynamicAsset('/public/assets/admin/img/favicon.png')}}" alt="public/img">
                 @endif
-                <span class="privacy">
-                    @php($landing_data =\App\Models\DataSetting::where('type', 'admin_landing_page')->whereIn('key', ['shipping_policy_status','refund_policy_status','cancellation_policy_status'])->pluck('value','key')->toArray())
-                    <a href="{{ route('privacy-policy') }}" id="privacy-check" style="{{ (isset($data['privacy']) && $data['privacy'] == 1)?'':'display:none;' }}">{{ translate('Privacy_Policy')}}</a>
-                    @if (isset($landing_data['refund_policy_status']) && $landing_data['refund_policy_status']  == 1)
-                    <a href="{{ route('refund-policy') }}" id="refund-check" style="{{ (isset($data['refund']) && $data['refund'] == 1)?'':'display:none;' }}"><span class="dot"></span>{{ translate('Refund_Policy') }}</a>
-                    @endif
-                    @if (isset($landing_data['cancellation_policy_status']) && $landing_data['cancellation_policy_status']  == 1)
-                    <a href="{{ route('cancellation-policy') }}" id="cancelation-check" style="{{ (isset($data['cancelation']) && $data['cancelation'] == 1)?'':'display:none;' }}"><span class="dot"></span>{{ translate('Cancelation_Policy') }}</a>
-                    @endif
-                    <a href="{{ route('contact-us') }}" id="contact-check" style="{{ (isset($data['contact']) && $data['contact'] == 1)?'':'display:none;' }}"><span class="dot"></span>{{ translate('Contact_us') }}</a>
-                </span>
-                <span class="social" style="text-align:center">
-                    @php($social_media = \App\Models\SocialMedia::active()->get())
-                    @if (isset($social_media))
-                        @foreach ($social_media as $social)
-                            <a href="{{ $social->link }}" target=”_blank” id="{{ $social->name  }}-check" style="margin: 0 5px;text-decoration:none;{{ (isset($data[$social->name]) && $data[$social->name] == 1)?'':'display:none;' }}">
-                                <img src="{{dynamicAsset('/public/assets/admin/img/img/')}}/{{ $social->name }}.png" alt="">
-                            </a>
-                        @endforeach
-                    @endif
-                </span>
                 <span class="copyright" id="mail-copyright">
-                    {{ $copyright_text?? translate('Copyright_2023_Stackfood._All_right_reserved') }}
+                    {{ $copyright_text?? translate('Copyright_2025_NACCFL._All_right_reserved') }}
                 </span>
             </td>
         </tr>

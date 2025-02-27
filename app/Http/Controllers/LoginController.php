@@ -9,7 +9,6 @@ use App\CentralLogics\Helpers;
 use Illuminate\Support\Carbon;
 use App\Models\BusinessSetting;
 use App\CentralLogics\SMS_module;
-use App\Models\PhoneVerification;
 use Illuminate\Support\Facades\DB;
 use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Support\Facades\App;
@@ -95,21 +94,22 @@ class LoginController extends Controller
         if (auth($auth)->attempt(['email' => $email, 'password' => $password], $remember)) {
 
             if ($remember) {
-                    Cookie::queue('role', $role, 120);
-                    Cookie::queue('e_token', Crypt::encryptString($email), 120);
-                    Cookie::queue('p_token', Crypt::encryptString($password), 120);
-                } else {
-                    $user = auth($auth)?->user();
-                    $user?->update([
-                        'remember_token' => null
-                    ]);
-                    Cookie::forget('role');
-                    Cookie::forget('e_token');
-                    Cookie::forget('p_token');
-                }
-
-                return ['status' => true, 'role' => $auth];
+                Cookie::queue('role', $role, 120);
+                Cookie::queue('e_token', Crypt::encryptString($email), 120);
+                Cookie::queue('p_token', Crypt::encryptString($password), 120);
+            } else {
+                $user = auth($auth)?->user();
+                $user?->update([
+                    'remember_token' => null
+                ]);
+                Cookie::forget('role');
+                Cookie::forget('e_token');
+                Cookie::forget('p_token');
             }
+
+            return ['status' => true, 'role' => $auth];
+        } 
+
         return false;
     }
 
@@ -152,14 +152,12 @@ class LoginController extends Controller
         }
 
         $data=$this->login_attemp($request->role,$request->email ,$request->password, $request->remember);
-        if ($data['status'] == false) {
-            return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([$data['message']]);
-        }
 
-        if($data['role'] == 1){
-            return redirect()->route($data.'.dashboard');
+        if (is_array($data) && isset($data['status']) && $data['status'] == true) {
+            return redirect()->route($data['role'].'.dashboard');
+        } else {
+            return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors(['Credentials does not match.']);
         }
-        return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors(['Credentials does not match.']);
     }
 
     public function reloadCaptcha()
@@ -173,132 +171,37 @@ class LoginController extends Controller
         ], 200);
     }
 
-    public function reset_password_request(Request $request)
+    public function user_reset_password_request(Request $request)
     {
-        $admin = Admin::where('role_id',1)->first();
+        $request->validate([
+            'email'=> 'required',
+            'role' => 'required'
+        ]);
+        $user = Admin::where('email',$request['email'])->first();
 
-        if (isset($admin)) {
+        if (isset($user)) {
             $token = Helpers::generate_reset_password_code();
             DB::table('password_resets')->insert([
-                'email' => $admin['email'],
+                'email' => $user['email'],
                 'token' => $token,
-                'created_by' => 'admin',
+                'created_by' => $request->role,
                 'created_at' => now(),
             ]);
             $url = url('/').'/password-reset?token='.$token;
             try {
-
-                $notification_status= Helpers::getNotificationStatusData('admin','forget_password');
-
-                if($notification_status?->mail_status == 'active' && config('mail.status') && $admin['email'] && Helpers::get_mail_status('forget_password_mail_status_admin')== '1'){
-                    Mail::to($admin['email'])->send(new AdminPasswordResetMail($url,$admin['f_name']));
+                if(config('mail.status') && $user['email'] && Helpers::get_mail_status('forget_password_mail_status_admin')== '1'){
+                    Mail::to($user['email'])->send(new AdminPasswordResetMail($url,$user['f_name']));
                     session()->put('log_email_succ',1);
-                } else {
+                }else {
                     Toastr::error(translate('messages.Failed_to_send_mail'));
                 }
-
             } catch (\Throwable $th) {
                 info($th->getMessage());
                 Toastr::error(translate('messages.Failed_to_send_mail'));
             }
             return back();
         }
-        Toastr::error(translate('messages.credential_doesnt_match'));
-        return back();
-    }
-
-    public function reset_password(Request $request)
-    {
-        $language = BusinessSetting::where('key', 'system_language')->first();
-        if($language){
-            foreach (json_decode($language->value, true) as $key => $data) {
-                if ($data['default'] == true) {
-                    $lang= $data['code'];
-                    $direction= $data['direction'];
-                }
-            }
-        }
-        $data = DB::table('password_resets')->where(['token' => $request['token']])->first();
-        if(!$data || Carbon::parse($data->created_at)->diffInMinutes(Carbon::now()) >= 60){
-            Toastr::error(translate('messages.link_expired'));
-            return redirect()->route('home');
-        }
-        $token = $request['token'];
-        if($data->created_by == 'admin'){
-            $admin = Admin::where('email',$data->email)->where('role_id',1)->first();
-            $otp = rand(10000, 99999);
-            DB::table('phone_verifications')->updateOrInsert(['phone' => $admin['phone']],
-                [
-                'token' => $otp,
-                'otp_hit_count' => 0,
-                'created_at' => now(),
-                'updated_at' => now(),
-                ]);
-                //for payment and sms gateway addon
-                $site_direction = session()?->get('site_direction') ?? $direction ??  'ltr';
-                $locale = session()?->get('local') ??  $lang ?? 'en';
-                App::setLocale($locale);
-
-
-            $notification_status= Helpers::getNotificationStatusData('admin','forget_password');
-
-            if($notification_status?->sms_status == "inactive"){
-                return view('auth.reset-password', compact('token','admin','site_direction','locale'));
-            }
-
-            $published_status = addon_published_status('Gateways');
-            if($published_status == 1){
-                $response = SmsGateway::send($admin['phone'],$otp);
-            }else{
-                $response = SMS_module::send($admin['phone'],$otp);
-            }
-
-                if($response != 'success')
-                {
-                    return view('auth.reset-password', compact('token','admin','site_direction','locale'));
-                }
-                return view('auth.verify-otp', compact('token','admin','site_direction','locale'));
-            }else{
-                $site_direction = session()?->get('vendor_site_direction') ?? $direction ?? 'ltr';
-                $locale = session()?->get('vendor_local') ??  $lang ?? 'en';
-                App::setLocale($locale);
-                return view('auth.reset-password', compact('token','site_direction','locale'));
-            }
-
-    }
-
-    public function verify_token(Request $request)
-    {
-        $request->validate([
-            'reset_token'=> 'required',
-            'opt-value'=> 'required',
-        ]);
-        $token = $request['reset_token'];
-        $admin = Admin::where('phone',$request['phone'])->where('role_id',1)->first();
-        $language = BusinessSetting::where('key', 'system_language')->first();
-        if($language){
-            foreach (json_decode($language->value, true) as $key => $data) {
-                if ($data['default'] == true) {
-                    $lang= $data['code'];
-                    $direction= $data['direction'];
-                }
-            }
-        }
-
-        $data = PhoneVerification::where([
-            'phone' => $request['phone'],
-            'token' => $request['opt-value'],
-        ])->first();
-
-        if (isset($data)) {
-            $data?->delete();
-            $site_direction = session()?->get('site_direction') ?? $direction ??'ltr';
-            $locale = session()?->get('local') ?? $lang ??  'en';
-            App::setLocale($locale);
-            return view('auth.reset-password', compact('token','admin','site_direction','locale'));
-        }
-
-        Toastr::error(translate('messages.otp_doesnt_match'));
+        Toastr::error(translate('messages.Email_does_not_exists'));
         return back();
     }
 
@@ -320,11 +223,13 @@ class LoginController extends Controller
         $data = DB::table('password_resets')->where(['token' => $request['reset_token']])->first();
         if (isset($data)) {
             if ($request['password'] == $request['confirm_password']) {
+                DB::table('admins')->where(['email' => $data->email])->update([
+                    'password' => bcrypt($request['confirm_password'])
+                ]);
                 if($data->created_by == 'admin'){
-                    DB::table('admins')->where(['email' => $data->email])->update([
-                        'password' => bcrypt($request['confirm_password'])
-                    ]);
                     $user_link = Helpers::get_login_url('admin_login_url');
+                } else if($data->created_by == 'admin_employee'){
+                    $user_link = Helpers::get_login_url('admin_employee_login_url');
                 }
                 DB::table('password_resets')->where(['token' => $request['reset_token']])->delete();
                 Toastr::success(translate('messages.password_changed_successfully'));
@@ -333,6 +238,36 @@ class LoginController extends Controller
         }
         Toastr::error(translate('messages.something_went_wrong'));
         return back();
+
+    }
+    public function reset_password(Request $request)
+    {
+        $language = BusinessSetting::where('key', 'system_language')->first();
+        if($language){
+            foreach (json_decode($language->value, true) as $key => $data) {
+                if ($data['default'] == true) {
+                    $lang= $data['code'];
+                    $direction= $data['direction'];
+                }
+            }
+        }
+        $site_direction = session()?->get('site_direction') ?? $direction ??  'ltr';
+        $locale = session()?->get('local') ??  $lang ?? 'en';
+        App::setLocale($locale);
+
+        $data = DB::table('password_resets')->where(['token' => $request['token']])->first();
+        if(!$data || Carbon::parse($data->created_at)->diffInMinutes(Carbon::now()) >= 60){
+            Toastr::error(translate('messages.link_expired'));
+            return redirect()->route('home');
+        }
+        $token = $request['token'];
+        if($data->created_by == 'admin'){
+            $admin = Admin::where('email',$data->email)->where('role_id',1)->first();
+            return view('auth.reset-password', compact('token','admin','site_direction','locale'));
+        }else{
+            $admin_employee = Admin::where('email',$data->email)->where('role_id', "!==" , 1)->first();
+            return view('auth.reset-password', compact('token','admin_employee','site_direction','locale'));
+        }
 
     }
 
