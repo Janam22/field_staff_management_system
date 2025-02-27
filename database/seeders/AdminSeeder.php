@@ -23,9 +23,11 @@ class AdminSeeder extends Seeder
             'email' => 'admin@admin.com',
             'image' => 'def.png',
             'password' => bcrypt(12345678),
+            'status' => 1,
             'remember_token' =>Str::random(10),
             'created_at'=>now(),
-            'updated_at'=>now()
+            'updated_at'=>now(),
+            'role_id' => 5
         ]);
     }
 }
