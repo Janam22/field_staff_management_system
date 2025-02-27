@@ -85,7 +85,7 @@ class LeaveController extends Controller
             ->when(isset($request->leave_request_date), function ($query) use ($from_date, $to_date) {
                 $query->WhereBetween('leave_requests.created_at', [$from_date, $to_date]);
             });
-
+            
         return $leave_request_logs;
     }
 
