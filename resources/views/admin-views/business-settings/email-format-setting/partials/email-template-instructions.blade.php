@@ -54,18 +54,6 @@
                                 <li>
                                     {userName}: {{ translate('the_name_of_the_user.') }}
                                 </li>
-                                <li>
-                                    {deliveryManName}: {{ translate('the_name_of_the_delivery_person.') }}
-                                </li>
-                                <li>
-                                    {restaurantName}: {{ translate('the_name_of_the_restaurant.') }}
-                                </li>
-                                <li>
-                                    {orderId}: {{ translate('the_order_id.') }}
-                                </li>
-                                <li>
-                                    {transactionId}: {{ translate('the_transaction_id.') }}
-                                </li>
                             </ul>
                         </div>
                     </div>

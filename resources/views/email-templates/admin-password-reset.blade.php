@@ -75,7 +75,6 @@
             <td style="padding:30px 30px 0">
                 <img src="{{dynamicAsset('/public/assets/admin/img/email-template-img.png')}}" alt="">
                 <h3 style="font-size:17px;font-weight:500">{{ translate('Change_password_request') }}</h3>
-
             </td>
         </tr>
         <tr>

@@ -6975,4 +6975,10 @@
   'travel_order_request_list' => 'Travel order request list',
   'Travel_Order_Request_Analytics' => 'Travel Order Request Analytics',
   'Travel_Order_Request_Date_Range' => 'Travel Order Request Date Range',
+  'If_an_Admin_clicks_‘Forgot_Password’_during_login,_an_automated_email_will_be_sent_to_their_respective_mail_address.' => 'If an Admin clicks ‘Forgot Password’ during login, an automated email will be sent to their respective mail address.',
+  'If_an_Admin/User_clicks_‘Forgot_Password’_during_login,_an_automated_email_will_be_sent_to_their_respective_mail_address.' => 'If an Admin/User clicks ‘Forgot Password’ during login, an automated email will be sent to their respective mail address.',
+  'If_an_User_clicks_‘Forgot_Password’_during_login,_an_automated_email_will_be_sent_to_their_respective_mail_address.' => 'If an User clicks ‘Forgot Password’ during login, an automated email will be sent to their respective mail address.',
+  'show_hide_email_format' => 'Show hide email format',
+  'If_enabled,_user_will_receive_an_email_when_a_user_click_on_‘Forgot_Password.’' => 'If enabled, user will receive an email when a user click on ‘Forgot Password.’',
+  'If_disabled,_user_will_not_receive_an_email_when_a_user_click_on_‘Forgot_Password.’' => 'If disabled, user will not receive an email when a user click on ‘Forgot Password.’',
 );

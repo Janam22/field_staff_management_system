@@ -19,7 +19,6 @@
                         {{ translate('messages.Email_Templates') }}
                     </span>
                 </h1>
-                @include('admin-views.business-settings.email-format-setting.partials.email-template-options')
             </div>
             @include('admin-views.business-settings.email-format-setting.partials.admin-email-template-setting-links')
         </div>
@@ -33,8 +32,8 @@
                         <div class="maintainance-mode-toggle-bar d-flex flex-wrap justify-content-between border rounded align-items-center p-2">
                             <h5 class="text-capitalize m-0 text--primary pl-2">
                                 {{translate('Send Mail on Forget Password ?')}}
-                                <span class="input-label-secondary" data-toggle="tooltip" data-placement="right" data-original-title="{{ translate('If_an_Admin_clicks_‘Forgot_Password’_during_login,_an_automated_email_will_be_sent_to_the_admin’s_mail_address.') }}">
-                                    <img src="{{ dynamicAsset('/public/assets/admin/img/info-circle.svg') }}" alt="{{ translate('messages.show_hide_food_menu') }}">
+                                <span class="input-label-secondary" data-toggle="tooltip" data-placement="right" data-original-title="{{ translate('If_an_User_clicks_‘Forgot_Password’_during_login,_an_automated_email_will_be_sent_to_their_respective_mail_address.') }}">
+                                    <img src="{{ dynamicAsset('/public/assets/admin/img/info-circle.svg') }}" alt="{{ translate('messages.show_hide_email_format') }}">
                                 </span>
                             </h5>
                             <label class="toggle-switch toggle-switch-sm">
@@ -45,8 +44,8 @@
                                  data-image-off="{{dynamicAsset('/public/assets/admin/img/modal')}}/place-order-off.png"
                                  data-title-on="{{translate('Want_to_enable_Forget_Password_mail?')}}"
                                  data-title-off="{{translate('Want_to_disable_Forget_Password_mail?')}}"
-                                 data-text-on="<p>{{translate('If_enabled,_admin_will_receive_an_email_when_a_user_click_on_‘Forgot_Password.’')}}</p>"
-                                 data-text-off="<p>{{translate('If_disabled,_admin_will_not_receive_an_email_when_a_user_click_on_‘Forgot_Password.’')}}</p>"
+                                 data-text-on="<p>{{translate('If_enabled,_user_will_receive_an_email_when_a_user_click_on_‘Forgot_Password.’')}}</p>"
+                                 data-text-off="<p>{{translate('If_disabled,_user_will_not_receive_an_email_when_a_user_click_on_‘Forgot_Password.’')}}</p>"
                                  id="mail-status" {{$mail_status == '1'?'checked':''}}>
                                 <span class="toggle-switch-label text mb-0">
                                     <span class="toggle-switch-indicator"></span>
@@ -260,9 +259,6 @@
                                                     <input type="text"  maxlength="75" placeholder="{{ translate('messages.Please_contact_us_for_any_queries_we_are_always_happy_to_help') }}"  class="form-control" name="footer_text[]" value="">
                                                 </div>
                                                 @endif
-
-                                                                                                    @include('admin-views.business-settings.email-format-setting.partials.social-media-and-footer-section')
-
 
 
                                             <div class="form-group mb-0">
