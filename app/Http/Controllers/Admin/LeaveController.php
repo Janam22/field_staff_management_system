@@ -85,7 +85,7 @@ class LeaveController extends Controller
             ->when(isset($request->leave_request_date), function ($query) use ($from_date, $to_date) {
                 $query->WhereBetween('leave_requests.created_at', [$from_date, $to_date]);
             });
-            
+
         return $leave_request_logs;
     }
 
@@ -99,7 +99,7 @@ class LeaveController extends Controller
             $page =  $request?->page ?? 1;
             $offset = ($page - 1) * $perPage;
             $itemsForCurrentPage = $my_leave_request_logs->slice($offset, $perPage);
-            $attendance_logs = new \Illuminate\Pagination\LengthAwarePaginator(
+            $attendance_logs = new LengthAwarePaginator(
                 $itemsForCurrentPage,
                 $my_leave_request_logs->count(),
                 $perPage,

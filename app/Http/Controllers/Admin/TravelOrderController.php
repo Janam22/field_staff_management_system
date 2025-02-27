@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TravelOrderRequestListExport;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TravelOrderController extends Controller
 {
@@ -44,10 +45,9 @@ class TravelOrderController extends Controller
     {        
         $show_limit = $request->show_limit ?? null;
         $travel_order_request_logs = $this->getTravelOrderListData($request);
-    
         $perPage = $show_limit && $show_limit > 0 ? $show_limit : config('default_pagination');
     
-        // Use Laravel's built-in pagination
+        // Using Laravel's built-in pagination
         $travel_order_request_logs = $travel_order_request_logs->paginate($perPage);
     
         return view('admin-views.travel-order.list', compact('travel_order_request_logs'));
@@ -96,7 +96,7 @@ class TravelOrderController extends Controller
             $page =  $request?->page ?? 1;
             $offset = ($page - 1) * $perPage;
             $itemsForCurrentPage = $my_travel_order_request_logs->slice($offset, $perPage);
-            $attendance_logs = new \Illuminate\Pagination\LengthAwarePaginator(
+            $attendance_logs = new LengthAwarePaginator(
                 $itemsForCurrentPage,
                 $my_travel_order_request_logs->count(),
                 $perPage,
