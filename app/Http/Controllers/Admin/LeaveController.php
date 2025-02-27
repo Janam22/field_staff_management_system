@@ -187,6 +187,7 @@ class LeaveController extends Controller
         $leave_requests = LeaveRequest::with('employee')
             ->leftJoin('admins', 'admins.id', '=', 'leave_requests.emp_id')
             ->select('leave_requests.*', 'admins.f_name', 'admins.l_name') 
+            ->orderby('created_at', 'desc')
             ->when(count($key) > 0, function ($query) use ($key) {
                 foreach ($key as $value) {
                     $query->orWhere('admins.f_name', 'like', "%{$value}%")

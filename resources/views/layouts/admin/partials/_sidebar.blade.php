@@ -133,6 +133,53 @@
                         @endif
                     @endif
 
+                    @if (Helpers::module_permission_check('travelorder'))
+                        <!-- Employee-->
+                        <li class="nav-item">
+                            <small class="nav-subtitle"
+                                title="{{ translate('messages.travel_handle') }}">{{ translate('messages.Travel_Order') }}</small>
+                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                        </li>
+                    @endif
+
+                    @if (Helpers::module_permission_check('travelorder'))
+                    
+                        @if(auth('admin')->user()->role_id !== 1)
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/travel-order/travel-order-request-new') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.travel-order-request.request') }}"
+                                title="{{ translate('messages.travel_order') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('request_new_travel_order') }}</span>
+                            </a>
+                        </li>
+                        
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/travel-order/my-travel-order-requests') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.travel-order-request.my-requests') }}"
+                                title="{{ translate('messages.travel_order') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('my_travel_order_requests') }}</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if(auth('admin')->user()->role_id == 1)
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/travel-order/travel-order-requests') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.travel-order-request.list') }}"
+                                title="{{ translate('messages.travel_order') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('travel_order_request_lists') }}</span>
+                            </a>
+                        </li>
+                        @endif
+                    @endif
 
                     @if (Helpers::module_permission_check('custom_role') || Helpers::module_permission_check('employee'))
                         <!-- Employee-->

@@ -102,6 +102,14 @@
                     
                     <div class="check-item">
                         <div class="form-group form-check form--check">
+                            <input type="checkbox" name="modules[]" value="travelorder" class="form-check-input"
+                                    id="travelorder">
+                            <label class="form-check-label ml-2 ml-sm-3 text-dark" for="travelorder">{{translate('messages.travel_order_request')}}</label>
+                        </div>
+                    </div>
+                    
+                    <div class="check-item">
+                        <div class="form-group form-check form--check">
                             <input type="checkbox" name="modules[]" value="settings" class="form-check-input"
                                     id="settings">
                             <label class="form-check-label ml-2 ml-sm-3  text-dark" for="settings">{{translate('messages.business_settings')}}</label>

@@ -106,6 +106,14 @@
                                     <label class="form-check-label ml-2 ml-sm-3 text-dark" for="leave">{{translate('messages.leave_request')}}</label>
                                 </div>
                             </div>
+                            
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="travelorder" class="form-check-input"
+                                            id="travelorder" {{in_array('travelorder',(array)json_decode($role['modules']))?'checked':''}}>
+                                    <label class="form-check-label ml-2 ml-sm-3 text-dark" for="travelorder">{{translate('messages.travel_order_request')}}</label>
+                                </div>
+                            </div>
 
                             <div class="col-md-3">
                                 <div class="form-group form-check">

@@ -1,5 +1,5 @@
 @extends('layouts.admin.app')
-@section('title',translate('New_Leave_Request'))
+@section('title',translate('New_Travel_Order_Request'))
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
@@ -13,7 +13,7 @@
                     <img src="{{dynamicAsset('/public/assets/admin/img/employee.png')}}" alt="public">
                 </div>
                 <span>
-                {{ translate('Add_New_Leave_Request') }}
+                {{ translate('Add_New_Travel_Order_Request') }}
             </span>
             </h1>
         </div>
@@ -21,7 +21,7 @@
         <!-- Content Row -->
         <div class="row">
             <div class="col-md-12">
-                <form action="{{route('admin.leave-request.store')}}" method="post"  class="js-validate" enctype="multipart/form-data">
+                <form action="{{route('admin.travel-order-request.store')}}" method="post"  class="js-validate" enctype="multipart/form-data">
                     @csrf
                     <div class="card mb-3">
                         <div class="card-header">
@@ -30,7 +30,7 @@
                                     <i class="tio-user"></i>
                                 </span>
                                 <span>
-                                    {{ translate('Leave_Information') }}
+                                    {{ translate('Travel_Order_Information') }}
                                 </span>
                             </h5>
                         </div>
@@ -38,39 +38,28 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row g-3">
-                                        <div class="col-sm-4">
-                                            <div class="form-group mb-0">
-                                                <label class="form-label " for="fname">{{translate('messages.leave_type')}}</label>
-                                                <select class="w-100 form-control h--45px js-select2-custom" name="leave_type" id="leave_type" required>
-                                                    <option value="" selected disabled>{{translate('messages.select_leave')}}</option>
-                                                    <option value="sl">Sick Leave</option>
-                                                    <option value="el">Emergency Leave</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-6">
                                             <div class="form-group mb-0">
                                                 <label class="form-label " for="from_date">{{translate('messages.Start_date')}}</label>
-                                                <input type="date" name="from_date" class="form-control h--45px" id="from_date" value="{{old('from_date')}}" placeholder="{{ translate('Ex:_leave_starting_date') }}" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group mb-0">
-                                                <label class="form-label " for="to_date">{{translate('messages.End_date')}}</label>
-                                                <input type="date" name="to_date" class="form-control h--45px" id="to_date" value="{{old('to_date')}}" placeholder="{{ translate('Ex:_leave_ending_date') }}" required>
+                                                <input type="date" name="from_date" class="form-control h--45px" id="from_date" value="{{old('from_date')}}" placeholder="{{ translate('Ex:_travel_order_starting_date') }}" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group mb-0">
-                                                <label class="form-label " for="subject">{{translate('messages.Subject')}}</label>
-                                                <input type="text" name="subject" class="form-control h--45px" id="subject" value="{{old('subject')}}" placeholder="{{ translate('Ex:_subject') }}" required>
+                                                <label class="form-label " for="to_date">{{translate('messages.End_date')}}</label>
+                                                <input type="date" name="to_date" class="form-control h--45px" id="to_date" value="{{old('to_date')}}" placeholder="{{ translate('Ex:_travel_order_ending_date') }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group mb-0">
+                                                <label class="form-label " for="travel_place">{{translate('messages.Travel_Place')}}</label>
+                                                <input type="text" name="travel_place" class="form-control h--45px" id="travel_place" value="{{old('travel_place')}}" placeholder="{{ translate('Ex:_pokhara') }}" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label class="form-label " for="reason">{{translate('messages.reason_description')}}</label>
-                                                <textarea name="reason" rows="4 " cols="50" value="{{old('reason')}}" class="form-control" id="reason"
-                                                       placeholder="{{ translate('Ex:_reason_description') }}" required></textarea>
+                                                <label class="form-label " for="travel_mode">{{translate('messages.means_of_transportation')}}</label>
+                                                <input name="travel_mode" value="{{old('travel_mode')}}" class="form-control" id="travel_mode" placeholder="{{ translate('Ex:_Bus') }}" required>
                                             </div>
                                         </div>
                                     </div>

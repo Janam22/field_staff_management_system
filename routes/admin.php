@@ -52,6 +52,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('export', 'LeaveController@export')->name('export');
         });
         
+        Route::group(['prefix' => 'travel-order', 'as' => 'travel-order-request.', 'middleware' => ['module:travelorder']], function () {
+            Route::get('travel-order-requests', 'TravelOrderController@list')->name('list');
+            Route::get('travel-order-request-new', 'TravelOrderController@request')->name('request');
+            Route::post('travel-order-request-store', 'TravelOrderController@store')->name('store');  
+            Route::post('status/{id}/{travel_order_status}', 'TravelOrderController@status')->name('status');
+            Route::get('my-travel-order-requests', 'TravelOrderController@my_request')->name('my-requests');
+            Route::get('export', 'TravelOrderController@export')->name('export');
+        });
+        
         Route::group(['prefix' => 'staff-attendance', 'as' => 'staff-attendance.', 'middleware' => ['module:staff_attendance']], function () {
             Route::get('list', 'AttendanceController@list')->name('list');
         });

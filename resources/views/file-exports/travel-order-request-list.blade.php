@@ -1,10 +1,10 @@
 <div class="row">
-    <div class="col-lg-12 text-center "><h1 >{{ translate('leave_request_list') }}</h1></div>
+    <div class="col-lg-12 text-center "><h1 >{{ translate('travel_order_request_list') }}</h1></div>
     <div class="col-lg-12">
     <table>
         <thead>
             <tr>
-                <th>{{ translate('Leave_request_Analytics') }}</th>
+                <th>{{ translate('Travel_Order_Request_Analytics') }}</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -31,7 +31,7 @@
                 <th>
                     {{ translate('Show_Limit')  }}: {{ $data['show_limit'] ??translate('N/A') }}
                     <br>
-                    {{ translate('Leave_Request_Date_Range')  }}: {{ $data['leave_request_date'] ??translate('N/A') }}
+                    {{ translate('Travel_Order_Request_Date_Range')  }}: {{ $data['travel_order_request_date'] ??translate('N/A') }}
                 </th>
                 <th></th>
                 <th></th>
@@ -41,32 +41,22 @@
         <tr>
             <th>{{ translate('sl') }}</th>
             <th>{{ translate('staff_name') }}</th>
-            <th>{{ translate('leave_type') }}</th>
             <th>{{ translate('start_date') }}</th>
             <th>{{ translate('end_date') }}</th>
-            <th>{{ translate('subject') }}</th>
-            <th>{{ translate('request_reason') }}</th>
+            <th>{{ translate('travel_place') }}</th>
+            <th>{{ translate('travel_mode') }}</th>
             <th>{{ translate('status') }} </th>
         </thead>
         <tbody>
-        @foreach($data['leave_requests'] as $key => $leave_request)
+        @foreach($data['travel_order_requests'] as $key => $travel_order_request)
         <tr>
             <td>{{ $key+1}}</td>
-            <td>{{ $leave_request->employee->f_name . ' ' . $leave_request->employee->l_name }}</td>
-            <td>
-                @if($leave_request->leave_type == 'el')
-                    Emergency Leave
-                @elseif($leave_request->leave_type == 'sl')
-                    Sick Leave
-                @else
-                    {{ $leave_request->leave_type }}
-                @endif
-            </td>
-            <td>{{ $leave_request->from_date }}</td>
-            <td>{{ $leave_request->to_date }}</td>
-            <td>{{ $leave_request->subject }}</td>
-            <td>{{ $leave_request->reason_description }}</td>
-            <td>{{ ucfirst($leave_request->leave_status) }}</td>
+            <td>{{ $travel_order_request->employee->f_name . ' ' . $travel_order_request->employee->l_name }}</td>
+            <td>{{ $travel_order_request->from_date }}</td>
+            <td>{{ $travel_order_request->to_date }}</td>
+            <td>{{ $travel_order_request->travel_place }}</td>
+            <td>{{ $travel_order_request->travel_mode }}</td>
+            <td>{{ ucfirst($travel_order_request->travel_order_status) }}</td>
         </tr>
         @endforeach
         </tbody>
