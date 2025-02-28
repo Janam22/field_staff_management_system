@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2025 at 09:14 AM
+-- Generation Time: Feb 27, 2025 at 01:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,9 +49,7 @@ CREATE TABLE `admins` (
 INSERT INTO `admins` (`id`, `f_name`, `l_name`, `phone`, `email`, `image`, `password`, `status`, `remember_token`, `created_at`, `updated_at`, `role_id`) VALUES
 (1, 'Janam', 'Pandey', '+9779866077949', 'janampandey2@gmail.com', '2025-02-11-67ab3043027e3.png', '$2y$10$q5mHXA4mgUct1bVoPpblTOJdIKafmV0CQy1RaR8MHLJoX25tBBjnq', 1, NULL, '2023-09-30 04:31:25', '2025-02-16 15:19:47', 1),
 (2, 'Prince', 'Yadav', '9813104240', 'prince@gmail.com', '2023-10-09-65241d9daf392.png', '$2y$10$q5mHXA4mgUct1bVoPpblTOJdIKafmV0CQy1RaR8MHLJoX25tBBjnq', 1, NULL, '2023-10-09 21:19:53', '2025-02-25 09:13:48', 5),
-(3, 'Madhu', NULL, '+9779819295546', 'madhu@bhojmandu.com', '2024-04-04-660e4f25e1696.png', '$2y$10$lqNOnJm77SwJuCsTDxr8jeenissKpOxd7b7y4lcHya0mWZFYhxqdW', 0, 'hGSWvN4U6ktBpdApXCbBHxfBlwFeQSSjFMmkb9v2B3wOs5VgNBy2adzwQ1Ef', '2024-04-04 12:41:37', '2024-04-24 11:24:54', 2),
-(4, 'Chandan', 'Sah', '983456666', 'birtamode@bhojmandu.com', '2024-05-10-663e612dc53d3.png', '$2y$10$wUpv/dWojSnWCKt13HOcuOL82HNbI20wg/fHwUmyORuZ0T.KGpB.S', 0, 'hDI2a3aYtpYJ3Fz9HiCwHMy8gqSDfJ0oZwOnm7EpOUu98VGKusT8aKkPGMsD', '2024-05-10 23:47:21', '2025-02-25 06:38:08', 2),
-(5, 'Shristi', 'Shrestha', '9828367494', 'janam@gmail.com', '2025-01-10-6780b2424a617.png', '$2y$10$q5mHXA4mgUct1bVoPpblTOJdIKafmV0CQy1RaR8MHLJoX25tBBjnq', 1, NULL, '2024-05-19 16:09:05', '2025-02-16 12:24:07', 5);
+(5, 'Shristi', 'Shrestha', '9828367494', 'jananpandey1995@gmail.com', '2025-01-10-6780b2424a617.png', '$2y$10$/cQcMpqdFvVobRp5ZPM2q.Zx1sxzI21Z9R9Vx7kJSeJGZhYc/xofO', 1, NULL, '2024-05-19 16:09:05', '2025-02-16 12:24:07', 5);
 
 -- --------------------------------------------------------
 
@@ -100,7 +98,8 @@ CREATE TABLE `attendance_logs` (
 --
 
 INSERT INTO `attendance_logs` (`id`, `emp_id`, `checkin_time`, `ci_lat`, `ci_lon`, `checkout_time`, `co_lat`, `co_lon`, `created_at`, `updated_at`) VALUES
-(9, 5, '2025-02-18 17:12:48', '27.7108', '85.3251', NULL, NULL, NULL, '2025-02-18 17:12:48', '2025-02-18 17:12:48');
+(9, 5, '2025-02-18 17:12:48', '27.7108', '85.3251', NULL, NULL, NULL, '2025-02-18 17:12:48', '2025-02-18 17:12:48'),
+(10, 5, '2025-02-27 17:29:21', '27.6955787', '85.3006855', '2025-02-27 17:39:25', '27.6941615', '85.3006854', '2025-02-27 17:29:21', '2025-02-27 17:39:25');
 
 -- --------------------------------------------------------
 
@@ -199,7 +198,7 @@ CREATE TABLE `email_templates` (
 --
 
 INSERT INTO `email_templates` (`id`, `title`, `body`, `background_image`, `image`, `logo`, `icon`, `button_name`, `button_url`, `footer_text`, `copyright_text`, `type`, `email_type`, `email_template`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Change Password Request', '<p>The following user has forgotten his password &amp; requested to change/reset their password.&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>User Name: {userName}</strong></p>', NULL, NULL, NULL, '2023-10-01-65197b63ad76c.png', '', '', 'Please contact us for any queries; we’re always happy to help.', '© 2025 NACCFL. All rights reserved.', 'admin', 'forget_password', '5', 1, '2023-06-20 18:19:43', '2025-02-16 10:52:09');
+(1, 'Change Password Request', '<p>The following user has forgotten his password &amp; requested to change/reset their password.&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>User Name: {userName}</strong></p>', NULL, NULL, NULL, '2025-02-27-67c028219789d.png', '', '', 'Please contact us for any queries; we’re always happy to help.', '© 2025 NACCFL. All rights reserved.', 'admin', 'forget_password', '5', 1, '2023-06-20 18:19:43', '2025-02-27 08:53:53');
 
 -- --------------------------------------------------------
 
@@ -353,7 +352,8 @@ INSERT INTO `storages` (`id`, `data_type`, `data_id`, `key`, `value`, `created_a
 (29, 'App\\Models\\DataSetting', '109', NULL, 'public', '2025-01-07 06:07:10', '2025-01-07 06:07:10'),
 (30, 'App\\Models\\DataSetting', '110', NULL, 'public', '2025-01-07 06:07:10', '2025-01-07 06:07:10'),
 (32, 'App\\Models\\Admin', '1', 'image', 'public', '2025-02-11 11:10:59', '2025-02-11 11:10:59'),
-(33, 'App\\Models\\Admin', '5', 'image', 'public', '2025-01-10 05:38:10', '2025-01-10 05:38:10');
+(33, 'App\\Models\\Admin', '5', 'image', 'public', '2025-01-10 05:38:10', '2025-01-10 05:38:10'),
+(42, 'App\\Models\\EmailTemplate', '1', 'icon', 'public', '2025-02-27 08:53:53', '2025-02-27 08:53:53');
 
 -- --------------------------------------------------------
 
@@ -380,7 +380,7 @@ INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, 
 (111, 'App\\Models\\EmailTemplate', 1, 'en', 'title', 'Change Password Request', NULL, NULL),
 (112, 'App\\Models\\EmailTemplate', 1, 'en', 'body', '<p>The following user has forgotten his password &amp; requested to change/reset their password.&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>User Name: {userName}</strong></p>', NULL, NULL),
 (113, 'App\\Models\\EmailTemplate', 1, 'en', 'button_name', '', NULL, NULL),
-(114, 'App\\Models\\EmailTemplate', 1, 'en', 'footer_text', 'Footer Text Please contact us for any queries; we’re always happy to help.', NULL, NULL),
+(114, 'App\\Models\\EmailTemplate', 1, 'en', 'footer_text', 'Please contact us for any queries; we’re always happy to help.', NULL, NULL),
 (115, 'App\\Models\\EmailTemplate', 1, 'en', 'copyright_text', '© 2023 NACCFL. All rights reserved.', NULL, NULL),
 (156, 'App\\Models\\EmailTemplate', 28, 'en', 'title', 'Reset Your Password', NULL, NULL),
 (157, 'App\\Models\\EmailTemplate', 28, 'en', 'body', '<p>Please click on this link to reset your Password&nbsp;&rarr;</p>', NULL, NULL),
@@ -522,7 +522,7 @@ ALTER TABLE `admin_roles`
 -- AUTO_INCREMENT for table `attendance_logs`
 --
 ALTER TABLE `attendance_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `business_settings`
@@ -558,13 +558,13 @@ ALTER TABLE `leave_requests`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=400;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=401;
 
 --
 -- AUTO_INCREMENT for table `storages`
 --
 ALTER TABLE `storages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `translations`
