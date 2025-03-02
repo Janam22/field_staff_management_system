@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2025 at 01:06 PM
+-- Generation Time: Mar 02, 2025 at 11:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,7 +47,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `f_name`, `l_name`, `phone`, `email`, `image`, `password`, `status`, `remember_token`, `created_at`, `updated_at`, `role_id`) VALUES
-(1, 'Janam', 'Pandey', '+9779866077949', 'janampandey2@gmail.com', '2025-02-11-67ab3043027e3.png', '$2y$10$q5mHXA4mgUct1bVoPpblTOJdIKafmV0CQy1RaR8MHLJoX25tBBjnq', 1, NULL, '2023-09-30 04:31:25', '2025-02-16 15:19:47', 1),
+(1, 'Janam', 'Pandey', '+9779866077949', 'janampandey2@gmail.com', '2025-02-11-67ab3043027e3.png', '$2y$10$q5mHXA4mgUct1bVoPpblTOJdIKafmV0CQy1RaR8MHLJoX25tBBjnq', 1, NULL, '2023-09-30 04:31:25', '2025-03-02 05:33:00', 1),
 (2, 'Prince', 'Yadav', '9813104240', 'prince@gmail.com', '2023-10-09-65241d9daf392.png', '$2y$10$q5mHXA4mgUct1bVoPpblTOJdIKafmV0CQy1RaR8MHLJoX25tBBjnq', 1, NULL, '2023-10-09 21:19:53', '2025-02-25 09:13:48', 5),
 (5, 'Shristi', 'Shrestha', '9828367494', 'jananpandey1995@gmail.com', '2025-01-10-6780b2424a617.png', '$2y$10$/cQcMpqdFvVobRp5ZPM2q.Zx1sxzI21Z9R9Vx7kJSeJGZhYc/xofO', 1, NULL, '2024-05-19 16:09:05', '2025-02-16 12:24:07', 5);
 
@@ -72,7 +72,7 @@ CREATE TABLE `admin_roles` (
 
 INSERT INTO `admin_roles` (`id`, `name`, `modules`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Master Admin', NULL, 1, NULL, NULL),
-(5, 'Staff', '[\"attendance\",\"leave\",\"travelorder\"]', 1, '2025-01-08 09:19:46', '2025-02-27 06:13:43');
+(5, 'Staff', '[\"attendance\",\"timesheet\",\"leave\",\"travelorder\"]', 1, '2025-01-08 09:19:46', '2025-03-02 05:33:13');
 
 -- --------------------------------------------------------
 
@@ -225,7 +225,7 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `leave_requests` (
   `id` bigint(20) NOT NULL,
   `emp_id` bigint(20) NOT NULL,
-  `leave_type` varchar(255) NOT NULL COMMENT 'sl-Sick Leave\r\nel-Emergency Leave',
+  `leave_type` varchar(255) NOT NULL COMMENT 'sl = Sick Leave\r\nel = Emergency Leave',
   `from_date` date NOT NULL DEFAULT current_timestamp(),
   `to_date` date NOT NULL DEFAULT current_timestamp(),
   `subject` varchar(255) NOT NULL,
@@ -354,6 +354,29 @@ INSERT INTO `storages` (`id`, `data_type`, `data_id`, `key`, `value`, `created_a
 (32, 'App\\Models\\Admin', '1', 'image', 'public', '2025-02-11 11:10:59', '2025-02-11 11:10:59'),
 (33, 'App\\Models\\Admin', '5', 'image', 'public', '2025-01-10 05:38:10', '2025-01-10 05:38:10'),
 (42, 'App\\Models\\EmailTemplate', '1', 'icon', 'public', '2025-02-27 08:53:53', '2025-02-27 08:53:53');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `timesheets`
+--
+
+CREATE TABLE `timesheets` (
+  `id` bigint(20) NOT NULL,
+  `emp_id` bigint(20) NOT NULL,
+  `details` varchar(500) NOT NULL,
+  `supporting_images` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `timesheets`
+--
+
+INSERT INTO `timesheets` (`id`, `emp_id`, `details`, `supporting_images`, `created_at`, `updated_at`) VALUES
+(1, 5, 'fdasgvfsdg', NULL, '2025-03-02 12:31:24', '2025-03-02 12:31:24'),
+(2, 5, 'drsfgdfgdfshgsfd', '[{\"img\":\"2025-03-02-67c40f10d755f.png\",\"storage\":\"public\"},{\"img\":\"2025-03-02-67c40f10dabe9.png\",\"storage\":\"public\"},{\"img\":\"2025-03-02-67c40f10dc792.png\",\"storage\":\"public\"}]', '2025-03-02 13:41:00', '2025-03-02 13:41:00');
 
 -- --------------------------------------------------------
 
@@ -489,6 +512,12 @@ ALTER TABLE `storages`
   ADD KEY `storages_value_index` (`value`);
 
 --
+-- Indexes for table `timesheets`
+--
+ALTER TABLE `timesheets`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `translations`
 --
 ALTER TABLE `translations`
@@ -565,6 +594,12 @@ ALTER TABLE `migrations`
 --
 ALTER TABLE `storages`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `timesheets`
+--
+ALTER TABLE `timesheets`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `translations`
