@@ -94,6 +94,14 @@
                     
                     <div class="check-item">
                         <div class="form-group form-check form--check">
+                            <input type="checkbox" name="modules[]" value="timesheet" class="form-check-input"
+                                    id="timesheet">
+                            <label class="form-check-label ml-2 ml-sm-3 text-dark" for="timesheet">{{translate('messages.timesheet')}}</label>
+                        </div>
+                    </div>
+
+                    <div class="check-item">
+                        <div class="form-group form-check form--check">
                             <input type="checkbox" name="modules[]" value="leave" class="form-check-input"
                                     id="leave">
                             <label class="form-check-label ml-2 ml-sm-3 text-dark" for="leave">{{translate('messages.leave_request')}}</label>

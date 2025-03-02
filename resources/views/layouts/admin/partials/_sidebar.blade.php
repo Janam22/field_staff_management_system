@@ -85,6 +85,54 @@
                         </li>
                     @endif
 
+                    @if (Helpers::module_permission_check('timesheet'))
+                        <!-- Employee-->
+                        <li class="nav-item">
+                            <small class="nav-subtitle"
+                                title="{{ translate('messages.timesheet_handle') }}">{{ translate('messages.Timesheet_Management') }}</small>
+                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                        </li>
+                    @endif
+
+                    @if (Helpers::module_permission_check('timesheet'))
+                    
+                        @if(auth('admin')->user()->role_id !== 1)
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/timesheet/add-timesheet') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.timesheet.new') }}"
+                                title="{{ translate('messages.timesheet') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('add_new_timesheet') }}</span>
+                            </a>
+                        </li>
+                        
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/timesheet/my-timesheets') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.timesheet.my-timesheets') }}"
+                                title="{{ translate('messages.timesheet') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('my_timesheets') }}</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if(auth('admin')->user()->role_id == 1)
+                        <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/timesheet/timesheets') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{ route('admin.timesheet.list') }}"
+                                title="{{ translate('messages.timesheet') }}">
+                                <i class="tio-incognito nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('timesheet_lists') }}</span>
+                            </a>
+                        </li>
+                        @endif
+                    @endif
+
                     @if (Helpers::module_permission_check('leave'))
                         <!-- Employee-->
                         <li class="nav-item">
@@ -104,7 +152,7 @@
                                 title="{{ translate('messages.leave') }}">
                                 <i class="tio-incognito nav-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('request_new_leave') }}</span>
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('add_new_leave_request') }}</span>
                             </a>
                         </li>
                         
@@ -152,7 +200,7 @@
                                 title="{{ translate('messages.travel_order') }}">
                                 <i class="tio-incognito nav-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('request_new_travel_order') }}</span>
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('add_new_travel_request') }}</span>
                             </a>
                         </li>
                         
@@ -163,7 +211,7 @@
                                 title="{{ translate('messages.travel_order') }}">
                                 <i class="tio-incognito nav-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('my_travel_order_requests') }}</span>
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('my_travel_requests') }}</span>
                             </a>
                         </li>
                         @endif
@@ -175,7 +223,7 @@
                                 title="{{ translate('messages.travel_order') }}">
                                 <i class="tio-incognito nav-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('travel_order_request_lists') }}</span>
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('travel_request_lists') }}</span>
                             </a>
                         </li>
                         @endif

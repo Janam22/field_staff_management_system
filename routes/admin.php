@@ -43,6 +43,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('export', 'AttendanceController@export')->name('export');
         });
         
+        Route::group(['prefix' => 'timesheet', 'as' => 'timesheet.', 'middleware' => ['module:timesheet']], function () {
+            Route::get('timesheets', 'TimesheetController@list')->name('list');
+            Route::get('add-timesheet', 'TimesheetController@new')->name('new');
+            Route::post('timesheet-store', 'TimesheetController@store')->name('store');  
+            Route::get('my-timesheets', 'TimesheetController@my_timesheet')->name('my-timesheets');
+            Route::get('timesheet-details/{id}', 'TimesheetController@details')->name('details');
+            Route::get('export', 'TimesheetController@export')->name('export');
+        });
+        
         Route::group(['prefix' => 'leave', 'as' => 'leave-request.', 'middleware' => ['module:leave']], function () {
             Route::get('leave-requests', 'LeaveController@list')->name('list');
             Route::get('leave-request-new', 'LeaveController@request')->name('request');
