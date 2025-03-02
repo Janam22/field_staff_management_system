@@ -50,6 +50,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('my-timesheets', 'TimesheetController@my_timesheet')->name('my-timesheets');
             Route::get('timesheet-details/{id}', 'TimesheetController@details')->name('details');
             Route::get('export', 'TimesheetController@export')->name('export');
+            Route::get('/download/{file_name}/{storage?}', 'TimesheetController@download')->name('download');
         });
         
         Route::group(['prefix' => 'leave', 'as' => 'leave-request.', 'middleware' => ['module:leave']], function () {

@@ -89,10 +89,10 @@
                                                                                     class="initial--22 w-100">
                                                                             </div>
                                                                             @php($storage = $img['storage'] ?? 'public')
-                                                                            @php($file = $storage == 's3'?base64_encode('order/' . $img['img']):base64_encode('public/order/' . $img['img']))
+                                                                            @php($file = $storage == 's3'?base64_encode('timesheet/' . $img['img']):base64_encode('timesheet/' . $img['img']))
                                                                             <div class="modal-footer">
                                                                                 <a class="btn btn-primary"
-                                                                                href=""><i
+                                                                                href="{{ route('admin.timesheet.download', [$file,$storage]) }}"><i
                                                                                         class="tio-download"></i>
                                                                                     {{ translate('messages.download') }}
                                                                                 </a>

@@ -12,6 +12,7 @@ use App\Exports\TimesheetListExport;
 use App\Models\Timesheet;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\CentralLogics\Helpers;
+use Illuminate\Support\Facades\Storage;
 
 class TimesheetController extends Controller
 {
@@ -181,6 +182,11 @@ class TimesheetController extends Controller
         } else if ($request->type == 'csv') {
             return Excel::download(new TimesheetListExport($data), 'timesheets.csv');
         }
+    }
+    
+    public function download($file_name,$storage='public')
+    {    
+        return Storage::disk($storage)->download(base64_decode($file_name));
     }
 
 }
