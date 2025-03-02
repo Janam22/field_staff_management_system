@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('leave_requests', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->bigInteger('emp_id', 20);
-            $table->string('leave_type', 255);
+            $table->string('leave_type', 255)->comment('sl = Sick Leave, el = Emergency Leave');
             $table->date('from_date')->useCurrent();
             $table->date('to_date')->useCurrent();
             $table->string('subject', 255);
