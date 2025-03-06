@@ -73,8 +73,8 @@
                                     <div class="form-group">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.phone') }}</label>
-                                        <input type="tel" value="{{ $phone->value ?? '' }}" name="phone"
-                                            class="form-control" placeholder="{{ translate('messages.Ex :') }} +9XXX-XXX-XXXX" required>
+                                        <input type="text" value="{{ $phone->value ?? '' }}" name="phone"
+                                            class="form-control" placeholder="{{ translate('messages.Ex :') }} 98********" required>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-6">

@@ -7021,4 +7021,5 @@
   'Timesheet_Analytics' => 'Timesheet Analytics',
   'Timesheet_Date_Range' => 'Timesheet Date Range',
   'travel_request_lists' => 'Travel request lists',
+  'Ex:_98********' => 'Ex: 98********',
 );
